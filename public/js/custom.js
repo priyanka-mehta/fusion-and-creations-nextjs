@@ -13,7 +13,6 @@ $('.jarallax').jarallax({
 })
 
 
-
 $(document).ready(function () {
   $('#home1Detail').hide();
   $('#home2Detail').hide();
@@ -59,9 +58,6 @@ $("#office1").click(function () {
   $("#office1Detail").show();
 });
 
-
-
-
 jQuery(document).ready(function ($) {
   $(".scroll").click(function (event) {
     event.preventDefault();
@@ -70,8 +66,6 @@ jQuery(document).ready(function ($) {
   });
 });
 
-
 $(document).ready(function () {
   $().UItoTop({ easingType: 'easeOutQuart' });
-
 });
