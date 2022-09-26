@@ -27,7 +27,7 @@ export default function Home() {
           <div className="banner-top">
             <div className="container">
               <div className="navbar-header banner-logo">
-                <a href="index.html">
+                <a href="/">
                   <h1>Fusion and Creations <span>The Designing Studio</span></h1>
                 </a>
               </div>
@@ -53,7 +53,7 @@ export default function Home() {
                   </button>
                   <ul>
                     <li>
-                      <a href="index.html">
+                      <a href="/">
                         <span className="icon">
                           <i aria-hidden="true" className="icon-home glyphicon glyphicon-home"></i>
                         </span>
