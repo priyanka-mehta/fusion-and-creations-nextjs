@@ -4,7 +4,15 @@ export default function Document() {
   return (
     <Html>
       <Head>
-        <meta name="description" content="Community Portal" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta
+          name="keywords"
+          content="Best Interior Designer in Gandhidham, Kutch, Gujarat"
+        />
+        <meta
+          name="description"
+          content="Fusion and Creation is leading contemporary interior design firm in gandhidham"
+        />
         <link rel="icon" href="/favicon.ico" />
         {/* mobile apps*/}
         <link
