@@ -32,6 +32,7 @@ const images = [
 
 export default function GallaryComponent() {
   const [index, setIndex] = useState(-1);
+  const [tabIndex, setTabIndex] = useState("residence");
 
   const currentImage = images[index];
   const nextIndex = (index + 1) % images.length;
@@ -39,10 +40,12 @@ export default function GallaryComponent() {
   const prevIndex = (index + images.length - 1) % images.length;
   const prevImage = images[prevIndex] || currentImage;
 
-  const handleClick = (index) => setIndex(index);
+  const handleClick = index => setIndex(index);
   const handleClose = () => setIndex(-1);
   const handleMovePrev = () => setIndex(prevIndex);
   const handleMoveNext = () => setIndex(nextIndex);
+
+  const handleTabChange = tab => setTabIndex(tab);
 
   return (
     <div id="gallery" className="gallery">
@@ -50,17 +53,29 @@ export default function GallaryComponent() {
         <div className="agileits-title">
           <h3>Our Gallery</h3>
           <ul className="nav nav-tabs">
-            <li className="active">
-              <a href="#home-gallary">Residence</a>
+            <li
+              className={tabIndex === "residence" ? "active" : 0}
+              onClick={() => handleTabChange("residence")}
+            >
+              <a>Residence</a>
             </li>
-            <li>
-              <a href="#office-gallary">Office</a>
+            <li
+              className={tabIndex === "office"  ? "active" : 0}
+              onClick={() => handleTabChange("office")}
+            >
+              <a>Office</a>
             </li>
-            <li>
-              <a href="#saloon-gallary">Saloon</a>
+            <li
+              className={tabIndex === "saloon"  ? "active" : 0}
+              onClick={() => handleTabChange("saloon")}
+            >
+              <a>Saloon</a>
             </li>
-            <li>
-              <a href="#restaurant-gallary">Restaurant</a>
+            <li
+              className={tabIndex === "restaurant"  ? "active" : 0}
+              onClick={() => handleTabChange("restaurant")}
+            >
+              <a>Restaurant</a>
             </li>
           </ul>
         </div>

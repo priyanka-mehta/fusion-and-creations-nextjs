@@ -63,7 +63,7 @@ export default function Contact() {
                   id="email"
                   aria-label="email"
                 />
-                <input type="button" value="SEND" onClick="sendEmail()" />
+                {/* <input type="button" value="SEND" onClick="sendEmail()" /> */}
               </form>
             </div>
           </div>
