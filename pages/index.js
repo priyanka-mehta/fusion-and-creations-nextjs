@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Script from 'next/script'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -27,9 +28,11 @@ export default function Home() {
           <div className="banner-top">
             <div className="container">
               <div className="navbar-header banner-logo">
-                <a href="/">
-                  <h1>Fusion and Creations <span>The Designing Studio</span></h1>
-                </a>
+                <Link href="/">
+                  <a>
+                    <h1>Fusion and Creations <span>The Designing Studio</span></h1>
+                  </a>
+                </Link>
               </div>
               <div className="banner-top-right">
                 <div className="agileinfo-social-grids">
@@ -53,12 +56,14 @@ export default function Home() {
                   </button>
                   <ul>
                     <li>
-                      <a href="/">
-                        <span className="icon">
-                          <i aria-hidden="true" className="icon-home glyphicon glyphicon-home"></i>
-                        </span>
-                        <span>Home</span>
-                      </a>
+                      <Link href="/">
+                        <a>
+                          <span className="icon">
+                            <i aria-hidden="true" className="icon-home glyphicon glyphicon-home"></i>
+                          </span>
+                          <span>Home</span>
+                        </a>
+                      </Link>
                     </li>
                     <li>
                       <a href="#about" className="scroll">
