@@ -1474,3 +1474,7 @@ p.w3-agilephn {
 a {
     cursor: pointer;
 }
+
+.d-none {
+    display: none;
+}

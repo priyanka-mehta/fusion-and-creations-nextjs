@@ -1,4 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import Script from "next/script";
 
 export default function Document() {
   return (
@@ -42,6 +43,23 @@ export default function Document() {
           type="text/css"
         />
         {/* web-fonts */}
+        <Script
+          src="js/jzBox.js"
+          onLoad={() => console.log(`JZBOX script loaded correctly`)}
+        />
+        <Script
+          src="https://cdnjs.cloudflare.com/ajax/libs/jarallax/1.10.7/jarallax.min.js"
+          onLoad={() => console.log(`JARALLAX script loaded correctly`)}
+        />
+
+        <Script
+          src="js/modernizr.custom.js"
+          onLoad={() => console.log(`MODERNIZR script loaded correctly`)}
+        />
+        <Script src="js/easing.js" />
+        <Script src="js/bootstrap.js" />
+        <Script src="js/jquery-2.2.3.min.js" />
+        <Script src="js/custom.js" />
       </Head>
       <body>
         <Main />

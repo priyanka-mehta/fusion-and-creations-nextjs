@@ -1,21 +1,34 @@
 import { useState } from "react";
-// import { Gallery } from "react-grid-gallery";
-// import Lightbox from "react-image-lightbox";
+import { Gallery } from "react-grid-gallery";
+import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
 
 const residenceImages = [
   {
     src: "images/home/ashok_vora/1.jpg",
-    caption: "Mr.Ashok Vora's Home"
+    caption: "Mr.Ashok Vora's Home",
+    width: 320,
+    height: 212
   },
   {
     src: "images/home/suresh_sorathiya/1.jpg",
-    caption: "Mr.Suresh Sorathiya's Home"
+    caption: "Mr.Suresh Sorathiya's Home",
+    width: 320,
+    height: 212
   },
   {
     src: "images/home/madhukant_shah/1.jpeg",
-    caption: "Mr.Madhukant Shah's Home"
+    caption: "Mr.Madhukant Shah's Home",
+    width: 320,
+    height: 212
   }
+];
+
+const images = [
+  'images/home/ashok_vora/1.jpg',
+  'images/home/ashok_vora/2.jpg',
+  'images/home/ashok_vora/3.jpg',
+  'images/home/ashok_vora/4.jpg',
 ];
 
 const officeImages = [
@@ -42,6 +55,8 @@ const restaurantImages = [
 export default function GallaryComponent() {
   const [tabIndex, setTabIndex] = useState("residence");
   const [flag, setFlag] = useState(false);
+  const [isOpen,setIsOpen] = useState(true)
+  const [photoIndex, setPhotoIndex] = useState(1);
 
   const handleTabChange = tab => setTabIndex(tab);
 
@@ -50,130 +65,143 @@ export default function GallaryComponent() {
   };
 
   return (
-    <div id="gallery" className="gallery">
-      <div className="container">
-        <div className="agileits-title">
-          <h3>Our Gallery</h3>
-          <ul className="nav nav-tabs">
-            <li
-              className={tabIndex === "residence" ? "active" : 0}
-              onClick={() => handleTabChange("residence")}
-            >
-              <a>Residence</a>
-            </li>
-            <li
-              className={tabIndex === "office" ? "active" : 0}
-              onClick={() => handleTabChange("office")}
-            >
-              <a>Office</a>
-            </li>
-            <li
-              className={tabIndex === "saloon" ? "active" : 0}
-              onClick={() => handleTabChange("saloon")}
-            >
-              <a>Saloon</a>
-            </li>
-            <li
-              className={tabIndex === "restaurant" ? "active" : 0}
-              onClick={() => handleTabChange("restaurant")}
-            >
-              <a>Restaurant</a>
-            </li>
-          </ul>
-        </div>
-        <div className="tab-content">
-          <div class="gallery-grids-row tab-pane fade in active">
-            {tabIndex === "residence" &&
-              residenceImages.map((i, key) => {
-                return (
-                  <div class="col-sm-4 col-xs-4 gallery-grid" key={key}>
-                    <div class="wpf-demo-4">
-                      {!flag
-                        ? <a class="item-hover">
-                            <img
-                              src={i.src}
-                              class="img-responsive"
-                              alt=""
-                              onClick={handleClickDetail}
-                            />
-                            <div class="view-caption">
-                              <p>
-                                {i.caption}
-                              </p>
-                            </div>
-                          </a>
-                        : <a
-                            // href={i.src}
-                            class="jzBoxLink item-hover"
-                          >
-                            {/* <img
-                              src={i.src}
-                              class="img-responsive"
-                              alt=""
-                            /> */}
-                            <div class="view-caption">
-                              <p>View Full</p>
-                            </div>
-                          </a>}
-                    </div>
-                  </div>
-                );
-              })}
-            {tabIndex === "office" &&
-              officeImages.map((i, key) => {
-                return (
-                  <div class="col-sm-4 col-xs-4 gallery-grid" key={key}>
-                    <div class="wpf-demo-4">
-                      <a class="item-hover">
-                        <img src={i.src} class="img-responsive" alt="" />
-                        <div class="view-caption">
-                          <p>
-                            {i.caption}
-                          </p>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                );
-              })}
-            {tabIndex === "saloon" &&
-              saloonImages.map((i, key) => {
-                return (
-                  <div class="col-sm-4 col-xs-4 gallery-grid" key={key}>
-                    <div class="wpf-demo-4">
-                      <a class="item-hover">
-                        <img src={i.src} class="img-responsive" alt="" />
-                        <div class="view-caption">
-                          <p>
-                            {i.caption}
-                          </p>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                );
-              })}
-            {tabIndex === "restaurant" &&
-              restaurantImages.map((i, key) => {
-                return (
-                  <div class="col-sm-4 col-xs-4 gallery-grid" key={key}>
-                    <div class="wpf-demo-4">
-                      <a class="item-hover">
-                        <img src={i.src} class="img-responsive" alt="" />
-                        <div class="view-caption">
-                          <p>
-                            {i.caption}
-                          </p>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
-        </div>
-      </div>
-    </div>
+    <>
+    <Gallery images={residenceImages} />
+      {isOpen && (
+        <Lightbox
+          mainSrc={images[photoIndex]}
+          nextSrc={images[(photoIndex + 1) % images.length]}
+          prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+          onCloseRequest={() => setIsOpen(false)}
+          onMovePrevRequest={() => setPhotoIndex((photoIndex + images.length - 1) % images.length)}
+          onMoveNextRequest={() => setPhotoIndex((photoIndex + 1) % images.length)}
+        />
+      )}
+    </>
+    //     <div id="gallery" className="gallery">
+    //       <div className="container">
+    //         <div className="agileits-title">
+    //           <h3>Our Gallery</h3>
+    //           <ul className="nav nav-tabs">
+    //             <li
+    //               className={tabIndex === "residence" ? "active" : 0}
+    //               onClick={() => handleTabChange("residence")}
+    //             >
+    //               <a>Residence</a>
+    //             </li>
+    //             <li
+    //               className={tabIndex === "office" ? "active" : 0}
+    //               onClick={() => handleTabChange("office")}
+    //             >
+    //               <a>Office</a>
+    //             </li>
+    //             <li
+    //               className={tabIndex === "saloon" ? "active" : 0}
+    //               onClick={() => handleTabChange("saloon")}
+    //             >
+    //               <a>Saloon</a>
+    //             </li>
+    //             <li
+    //               className={tabIndex === "restaurant" ? "active" : 0}
+    //               onClick={() => handleTabChange("restaurant")}
+    //             >
+    //               <a>Restaurant</a>
+    //             </li>
+    //           </ul>
+    //         </div>
+    //         <div className="tab-content">
+    //           <div class="gallery-grids-row tab-pane fade in active">
+    //             {tabIndex === "residence" &&
+    //               residenceImages.map((i, key) => {
+    //                 return (
+    //                   <div class="col-sm-4 col-xs-4 gallery-grid" key={key}>
+    //                     <div class="wpf-demo-4">
+    //                       {!flag
+    //                         ? <a class="item-hover">
+    //                             <img
+    //                               src={i.src}
+    //                               class="img-responsive"
+    //                               alt=""
+    //                               onClick={handleClickDetail}
+    //                             />
+    //                             <div class="view-caption">
+    //                               <p>
+    //                                 {i.caption}
+    //                               </p>
+    //                             </div>
+    //                           </a>
+    //                         : <a
+    //                             // href={i.src}
+    //                             class="jzBoxLink item-hover"
+    //                           >
+    //                             {/* <img
+    //                               src={i.src}
+    //                               class="img-responsive"
+    //                               alt=""
+    //                             /> */}
+    //                             <div class="view-caption">
+    //                               <p>View Full</p>
+    //                             </div>
+    //                           </a>}
+    //                     </div>
+    //                   </div>
+    //                 );
+    //               })}
+    //             {tabIndex === "office" &&
+    //               officeImages.map((i, key) => {
+    //                 return (
+    //                   <div class="col-sm-4 col-xs-4 gallery-grid" key={key}>
+    //                     <div class="wpf-demo-4">
+    //                       <a class="item-hover">
+    //                         <img src={i.src} class="img-responsive" alt="" />
+    //                         <div class="view-caption">
+    //                           <p>
+    //                             {i.caption}
+    //                           </p>
+    //                         </div>
+    //                       </a>
+    //                     </div>
+    //                   </div>
+    //                 );
+    //               })}
+    //             {tabIndex === "saloon" &&
+    //               saloonImages.map((i, key) => {
+    //                 return (
+    //                   <div class="col-sm-4 col-xs-4 gallery-grid" key={key}>
+    //                     <div class="wpf-demo-4">
+    //                       <a class="item-hover">
+    //                         <img src={i.src} class="img-responsive" alt="" />
+    //                         <div class="view-caption">
+    //                           <p>
+    //                             {i.caption}
+    //                           </p>
+    //                         </div>
+    //                       </a>
+    //                     </div>
+    //                   </div>
+    //                 );
+    //               })}
+    //             {tabIndex === "restaurant" &&
+    //               restaurantImages.map((i, key) => {
+    //                 return (
+    //                   <div class="col-sm-4 col-xs-4 gallery-grid" key={key}>
+    //                     <div class="wpf-demo-4">
+    //                       <a class="item-hover">
+    //                         <img src={i.src} class="img-responsive" alt="" />
+    //                         <div class="view-caption">
+    //                           <p>
+    //                             {i.caption}
+    //                           </p>
+    //                         </div>
+    //                       </a>
+    //                     </div>
+    //                   </div>
+    //                 );
+    //               })}
+    //           </div>
+    //         </div>
+    //       </div>
+    //     </div>
   );
 }
 

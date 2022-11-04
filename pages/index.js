@@ -26,7 +26,22 @@ export default function Home() {
       <Footer />
 
       {/* <!-- custom javascript start --> */}
-      {/* <Script id="test" src="js/custom.js"></Script> */}
+      {/* <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jarallax/2.0.4/jarallax.min.js"
+        integrity="sha512-nvmYAfRcRhffFD47Bz2In79HI86Zw84cCPXs675EjUYqgLAkirq2N38LXI6U5r6UZ+vz2zqBWxRQaScpjPwF5A=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+      /> */}
+      <Script
+        src="js/jzBox.js"
+        onLoad={() => console.log(`JZBOX script loaded correctly`)}
+      />
+      {/* <Script
+        id="test"
+        src="js/custom.js"
+        onLoad={() => console.log(`CUSTOM script loaded correctly`)}
+      /> */}
+
       {/* <Script id="test">
         $(document).ready(function () {
           $('#home1Detail').hide();
