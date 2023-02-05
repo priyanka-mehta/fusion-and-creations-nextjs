@@ -1470,3 +1470,11 @@ p.w3-agilephn {
 .about-font{
     font-size: 20px;
 }
+
+a {
+    cursor: pointer;
+}
+
+.d-none {
+    display: none;
+}

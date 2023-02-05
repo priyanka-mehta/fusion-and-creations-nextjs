@@ -1,916 +1,342 @@
-import React from "react";
+import React, { useState } from "react";
+import {
+  gallaryMenu,
+  office1Images,
+  residence1Images,
+  residence2Images,
+  residence3Images,
+  restaurant1Images,
+  saloon1Images
+} from "../public/helper";
+import "react-image-gallery/styles/css/image-gallery.css";
 
-export default function Gallary() {
+import ImageGallery from "react-image-gallery";
+
+export default function Gallary1() {
+  const [tabIndex, setTabIndex] = useState("residence");
+  const [subTabIndex, setSubTabIndex] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [startIndex, setStartIndex] = useState(0);
+  const [activeViewFull, setActiveViewFull] = useState("");
+
+  const handleTabChange = tab => {
+    setTabIndex(tab);
+    setSubTabIndex("");
+  };
+
+  const handleSubTabChange = subTab => setSubTabIndex(subTab);
+
+  const handleViewFull = (key, imgArray) => {
+    setIsOpen(true);
+    setStartIndex(key);
+    setActiveViewFull(imgArray);
+  };
+
+  let tabDetail = gallaryMenu.find(i => i.tabName === tabIndex);
+
   return (
     <div id="gallery" className="gallery">
       <div className="container">
         <div className="agileits-title">
           <h3>Our Gallery</h3>
+          {isOpen &&
+            <div
+              className="modal show"
+              tabIndex="-1"
+              aria-labelledby="exampleModalLiveLabel"
+              style={{ display: "block" }}
+              aria-modal="true"
+              role="dialog"
+            >
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <button
+                      type="button"
+                      className="fa fa-close"
+                      aria-label="Close"
+                      onClick={() => setIsOpen(false)}
+                    />
+                  </div>
+                  <div className="modal-body">
+                    <ImageGallery
+                      items={activeViewFull}
+                      useBrowserFullscreen={false}
+                      startIndex={startIndex}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>}
           <ul className="nav nav-tabs">
-            {/* <li className="active"><a href="#home-gallary">Residence</a></li>
-              <li><a href="#office-gallary">Office</a></li>
-              <li><a href="#saloon-gallary">Saloon</a></li>
-              <li><a href="#restaurant-gallary">Restaurant</a></li> */}
+            {gallaryMenu.map((i, key) => {
+              return (
+                <li
+                  className={tabIndex === i.tabName ? "active" : 0}
+                  onClick={() => handleTabChange(i.tabName)}
+                >
+                  <a>
+                    {i.tabName}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </div>
-        <div id="jzBox" className="jzBox">
-          <div id="jzBoxNextBig" />
-          <div id="jzBoxPrevBig" />
-          <img src="#" id="jzBoxTargetImg" alt="" />
-          <div id="jzBoxBottom">
-            <div id="jzBoxTitle" />
-            <div id="jzBoxCounter" />
-            <span id="jzBoxMoreItems">
-              <i
-                className="glyphicon glyphicon-menu-left"
-                id="jzBoxPrev"
-              />{" "}
-              &nbsp;
-              <i
-                className="glyphicon glyphicon-menu-right"
-                id="jzBoxNext"
-              />{" "}
-              &nbsp;
-            </span>
-            <i className="glyphicon glyphicon-remove-circle" id="jzBoxClose" />
+        <div
+          className={`gallery-grids-row tab-pane fade in active ${tabIndex ===
+          "residence"
+            ? "d-block"
+            : "d-none"}`}
+        >
+          {tabDetail.subTab.map((i, key) => {
+            return (
+              <div
+                className={`col-sm-4 col-xs-4 gallery-grid ${subTabIndex === ""
+                  ? "d-block"
+                  : "d-none"}`}
+                onClick={() => handleSubTabChange(i.subTabName)}
+              >
+                <div className="wpf-demo-4">
+                  <a className="item-hover">
+                    <img src={i.src} className="img-responsive" alt="" />
+                    <div className="view-caption">
+                      <p>
+                        {i.caption}
+                      </p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            );
+          })}
+          <div
+            style={{
+              display: `${subTabIndex === "residence1" ? "block" : "none"}`
+            }}
+          >
+            {residence1Images.map((i, key) => {
+              return (
+                <div className="col-sm-4 col-xs-4 gallery-grid">
+                  <div className="wpf-demo-4">
+                    <a className="jzBoxLink item-hover">
+                      <img src={i.original} className="img-responsive" alt="" />
+                      <div className="view-caption">
+                        <p
+                          onClick={() => handleViewFull(key, residence1Images)}
+                        >
+                          View Full
+                        </p>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div
+            style={{
+              display: `${subTabIndex === "residence2" ? "block" : "none"}`
+            }}
+          >
+            {residence2Images.map((i, key) => {
+              return (
+                <div className="col-sm-4 col-xs-4 gallery-grid">
+                  <div className="wpf-demo-4">
+                    <a className="jzBoxLink item-hover">
+                      <img src={i.original} className="img-responsive" alt="" />
+                      <div className="view-caption">
+                        <p
+                          onClick={() => handleViewFull(key, residence2Images)}
+                        >
+                          View Full
+                        </p>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div
+            style={{
+              display: `${subTabIndex === "residence3" ? "block" : "none"}`
+            }}
+          >
+            {residence3Images.map((i, key) => {
+              return (
+                <div className="col-sm-4 col-xs-4 gallery-grid">
+                  <div className="wpf-demo-4">
+                    <a className="jzBoxLink item-hover">
+                      <img src={i.original} className="img-responsive" alt="" />
+                      <div className="view-caption">
+                        <p
+                          onClick={() => handleViewFull(key, residence3Images)}
+                        >
+                          View Full
+                        </p>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="clearfix"> </div>
+        </div>{" "}
+        <div
+          className={`gallery-grids-row tab-pane fade in active ${tabIndex ===
+          "office"
+            ? "d-block"
+            : "d-none"}`}
+        >
+          {tabDetail.subTab.map((i, key) => {
+            return (
+              <div
+                className={`col-sm-4 col-xs-4 gallery-grid ${subTabIndex === ""
+                  ? "d-block"
+                  : "d-none"}`}
+                onClick={() => handleSubTabChange(i.subTabName)}
+              >
+                <div className="wpf-demo-4">
+                  <a className="item-hover">
+                    <img src={i.src} className="img-responsive" alt="" />
+                    <div className="view-caption">
+                      <p>
+                        {i.caption}
+                      </p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            );
+          })}
+          <div
+            style={{
+              display: `${subTabIndex === "office1" ? "block" : "none"}`
+            }}
+          >
+            {office1Images.map((i, key) => {
+              return (
+                <div className="col-sm-4 col-xs-4 gallery-grid">
+                  <div className="wpf-demo-4">
+                    <a className="jzBoxLink item-hover">
+                      <img src={i.original} className="img-responsive" alt="" />
+                      <div className="view-caption">
+                        <p onClick={() => handleViewFull(key, office1Images)}>
+                          View Full
+                        </p>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="clearfix"> </div>
+        </div>
+        <div
+          className={`gallery-grids-row tab-pane fade in active ${tabIndex ===
+          "saloon"
+            ? "d-block"
+            : "d-none"}`}
+        >
+          {tabDetail.subTab.map((i, key) => {
+            return (
+              <div
+                className={`col-sm-4 col-xs-4 gallery-grid ${subTabIndex === ""
+                  ? "d-block"
+                  : "d-none"}`}
+                onClick={() => handleSubTabChange(i.subTabName)}
+              >
+                <div className="wpf-demo-4">
+                  <a className="item-hover">
+                    <img src={i.src} className="img-responsive" alt="" />
+                    <div className="view-caption">
+                      <p>
+                        {i.caption}
+                      </p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            );
+          })}
+          <div
+            style={{
+              display: `${subTabIndex === "saloon1" ? "block" : "none"}`
+            }}
+          >
+            {saloon1Images.map((i, key) => {
+              return (
+                <div className="col-sm-4 col-xs-4 gallery-grid">
+                  <div className="wpf-demo-4">
+                    <a className="jzBoxLink item-hover">
+                      <img src={i.original} className="img-responsive" alt="" />
+                      <div className="view-caption">
+                        <p onClick={() => handleViewFull(key, saloon1Images)}>
+                          View Full
+                        </p>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
-        <div className="tab-content">
-          <img src="images/coming_soon.jpg" className="img-responsive" alt="" />
-          {/* <div id="home-gallary" className="gallery-grids-row tab-pane fade in active">
-              <div className="col-sm-4 col-xs-4 gallery-grid" id="home1">
+        <div
+          className={`gallery-grids-row tab-pane fade in active ${tabIndex ===
+          "restaurant"
+            ? "d-block"
+            : "d-none"}`}
+        >
+          {tabDetail.subTab.map((i, key) => {
+            return (
+              <div
+                className={`col-sm-4 col-xs-4 gallery-grid ${subTabIndex === ""
+                  ? "d-block"
+                  : "d-none"}`}
+                onClick={() => handleSubTabChange(i.subTabName)}
+              >
                 <div className="wpf-demo-4">
                   <a className="item-hover">
-                    <img src="images/home/ashok_vora/1.jpg" className="img-responsive" alt=""/>
+                    <img src={i.src} className="img-responsive" alt="" />
                     <div className="view-caption">
-                      <p>Mr.Ashok Vora's Home</p>
+                      <p>
+                        {i.caption}
+                      </p>
                     </div>
                   </a>
                 </div>
               </div>
-              <div className="col-sm-4 col-xs-4 gallery-grid" id="home2">
-                <div className="wpf-demo-4">
-                  <a className="item-hover">
-                    <img src="images/home/suresh_sorathiya/1.jpg" className="img-responsive" alt=""/>
-                    <div className="view-caption">
-                      <p>Mr.Suresh Sorathiya's Home</p>
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <div className="col-sm-4 col-xs-4 gallery-grid" id="home3">
-                <div className="wpf-demo-4">
-                  <a className="item-hover">
-                    <img src="images/home/madhukant_shah/1.jpeg" className="img-responsive" alt=""/>
-                    <div className="view-caption">
-                      <p>Mr.Madhukant Shah's Home</p>
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <div id="home1Detail">
+            );
+          })}
+          <div
+            style={{
+              display: `${subTabIndex === "restaurant1" ? "block" : "none"}`
+            }}
+          >
+            {restaurant1Images.map((i, key) => {
+              return (
                 <div className="col-sm-4 col-xs-4 gallery-grid">
                   <div className="wpf-demo-4">
-                    <a href="images/home/ashok_vora/1.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/ashok_vora/1.jpg" className="img-responsive" alt=""/>
+                    <a className="jzBoxLink item-hover">
+                      <img src={i.original} className="img-responsive" alt="" />
                       <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/ashok_vora/2.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/ashok_vora/2.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/ashok_vora/3.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/ashok_vora/3.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/ashok_vora/4.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/ashok_vora/4.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/ashok_vora/5.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/ashok_vora/5.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/ashok_vora/6.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/ashok_vora/6.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
+                        <p
+                          onClick={() => handleViewFull(key, restaurant1Images)}
+                        >
+                          View Full
+                        </p>
                       </div>
                     </a>
                   </div>
                 </div>
-                <div className="col-sm-4 col-xs-4 gallery-grid">
-                  <div className="wpf-demo-4">
-                    <a href="images/home/ashok_vora/7.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/ashok_vora/7.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/ashok_vora/8.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/ashok_vora/8.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/ashok_vora/9.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/ashok_vora/9.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/ashok_vora/10.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/ashok_vora/10.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/ashok_vora/11.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/ashok_vora/11.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/ashok_vora/12.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/ashok_vora/12.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/ashok_vora/18.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/ashok_vora/18.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div className="col-sm-4 col-xs-4 gallery-grid">
-                  <div className="wpf-demo-4">
-                    <a href="images/home/ashok_vora/13.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/ashok_vora/13.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/ashok_vora/14.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/ashok_vora/14.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/ashok_vora/15.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/ashok_vora/15.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/ashok_vora/16.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/ashok_vora/16.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/ashok_vora/17.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/ashok_vora/17.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-    
-                </div>
-              </div>
-              <div id="home2Detail">
-                <div className="col-sm-4 col-xs-4 gallery-grid">
-                  <div className="wpf-demo-4">
-                    <a href="images/home/suresh_sorathiya/1.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/suresh_sorathiya/1.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/suresh_sorathiya/2.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/suresh_sorathiya/2.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/suresh_sorathiya/3.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/suresh_sorathiya/3.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/suresh_sorathiya/4.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/suresh_sorathiya/4.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/suresh_sorathiya/5.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/suresh_sorathiya/5.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/suresh_sorathiya/6.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/suresh_sorathiya/6.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div className="col-sm-4 col-xs-4 gallery-grid">
-                  <div className="wpf-demo-4">
-                    <a href="images/home/suresh_sorathiya/7.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/suresh_sorathiya/7.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/suresh_sorathiya/8.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/suresh_sorathiya/8.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/suresh_sorathiya/9.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/suresh_sorathiya/9.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/suresh_sorathiya/10.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/suresh_sorathiya/10.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/suresh_sorathiya/11.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/suresh_sorathiya/11.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/suresh_sorathiya/12.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/suresh_sorathiya/12.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div className="col-sm-4 col-xs-4 gallery-grid">
-                  <div className="wpf-demo-4">
-                    <a href="images/home/suresh_sorathiya/13.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/suresh_sorathiya/13.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/suresh_sorathiya/14.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/suresh_sorathiya/14.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/suresh_sorathiya/15.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/suresh_sorathiya/15.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/suresh_sorathiya/16.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/suresh_sorathiya/16.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/suresh_sorathiya/17.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/suresh_sorathiya/17.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/suresh_sorathiya/18.jpg" className="jzBoxLink item-hover">
-                      <img src="images/home/suresh_sorathiya/18.jpg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div id="home3Detail">
-                <div className="col-sm-4 col-xs-4 gallery-grid">
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/1.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/1.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/2.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/2.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/3.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/3.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/4.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/4.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/5.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/5.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/6.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/6.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/7.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/7.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/8.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/8.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/9.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/9.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/10.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/10.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div className="col-sm-4 col-xs-4 gallery-grid">
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/11.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/11.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/12.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/12.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/13.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/13.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/14.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/14.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/15.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/15.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/16.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/16.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/17.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/17.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/18.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/18.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/19.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/19.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/20.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/20.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div className="col-sm-4 col-xs-4 gallery-grid">
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/21.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/21.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/22.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/22.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/23.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/23.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/24.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/24.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/25.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/25.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/26.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/26.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/27.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/27.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/28.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/28.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/29.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/29.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/home/madhukant_shah/30.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/home/madhukant_shah/30.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div className="clearfix"> </div>
-            </div>
-            <div id="office-gallary" className="gallery-grids-row tab-pane fade">
-              <div className="col-sm-4 col-xs-4 gallery-grid" id="office1">
-                <div className="wpf-demo-4">
-                  <a className="item-hover">
-                    <img src="images/office/virali_mehta/1.jpeg" className="img-responsive" alt=""/>
-                    <div className="view-caption">
-                      <p>Virali Mehta's Office</p>
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <div id="office1Detail">
-                <div className="col-sm-4 col-xs-4 gallery-grid">
-                  <div className="wpf-demo-4">
-                    <a href="images/office/virali_mehta/1.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/office/virali_mehta/1.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/office/virali_mehta/2.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/office/virali_mehta/2.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div className="col-sm-4 col-xs-4 gallery-grid">
-                  <div className="wpf-demo-4">
-                    <a href="images/office/virali_mehta/3.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/office/virali_mehta/3.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/office/virali_mehta/4.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/office/virali_mehta/4.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div className="col-sm-4 col-xs-4 gallery-grid">
-                  <div className="wpf-demo-4">
-                    <a href="images/office/virali_mehta/5.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/office/virali_mehta/5.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div className="clearfix"> </div>
-            </div>
-            <div id="saloon-gallary" className="gallery-grids-row tab-pane fade">
-              <div className="col-sm-4 col-xs-4 gallery-grid" id="saloon1">
-                <div className="wpf-demo-4">
-                  <a className="item-hover">
-                    <img src="images/saloon/rakhi_shah/1.jpeg" className="img-responsive" alt=""/>
-                    <div className="view-caption">
-                      <p>Rakhi Shah's Saloon</p>
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <div id="saloon1Detail">
-                <div className="col-sm-4 col-xs-4 gallery-grid">
-                  <div className="wpf-demo-4">
-                    <a href="images/saloon/rakhi_shah/1.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/saloon/rakhi_shah/1.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/saloon/rakhi_shah/2.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/saloon/rakhi_shah/2.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div className="col-sm-4 col-xs-4 gallery-grid">
-    
-                  <div className="wpf-demo-4">
-                    <a href="images/saloon/rakhi_shah/4.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/saloon/rakhi_shah/4.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/saloon/rakhi_shah/3.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/saloon/rakhi_shah/3.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div className="col-sm-4 col-xs-4 gallery-grid">
-                  <div className="wpf-demo-4">
-                    <a href="images/saloon/rakhi_shah/5.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/saloon/rakhi_shah/5.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/saloon/rakhi_shah/6.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/saloon/rakhi_shah/6.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div id="restaurant-gallary" className="gallery-grids-row tab-pane fade">
-              <div className="col-sm-4 col-xs-4 gallery-grid" id="restaurant1">
-                <div className="wpf-demo-4">
-                  <a className="item-hover">
-                    <img src="images/restaurant/tulsi_restaurant/1.jpeg" className="img-responsive" alt=""/>
-                    <div className="view-caption">
-                      <p>Tulsi Restaurant</p>
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <div id="restaurant1Detail">
-                <div className="col-sm-4 col-xs-4 gallery-grid">
-                  <div className="wpf-demo-4">
-                    <a href="images/restaurant/tulsi_restaurant/1.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/restaurant/tulsi_restaurant/1.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/restaurant/tulsi_restaurant/2.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/restaurant/tulsi_restaurant/2.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/restaurant/tulsi_restaurant/3.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/restaurant/tulsi_restaurant/3.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/restaurant/tulsi_restaurant/4.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/restaurant/tulsi_restaurant/4.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/restaurant/tulsi_restaurant/5.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/restaurant/tulsi_restaurant/5.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/restaurant/tulsi_restaurant/16.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/restaurant/tulsi_restaurant/16.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div className="col-sm-4 col-xs-4 gallery-grid">
-                  <div className="wpf-demo-4">
-                    <a href="images/restaurant/tulsi_restaurant/6.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/restaurant/tulsi_restaurant/6.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/restaurant/tulsi_restaurant/7.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/restaurant/tulsi_restaurant/7.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/restaurant/tulsi_restaurant/8.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/restaurant/tulsi_restaurant/8.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/restaurant/tulsi_restaurant/9.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/restaurant/tulsi_restaurant/9.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/restaurant/tulsi_restaurant/10.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/restaurant/tulsi_restaurant/10.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/restaurant/tulsi_restaurant/17.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/restaurant/tulsi_restaurant/17.jpeg" className="img-responsive" alt=""/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div className="col-sm-4 col-xs-4 gallery-grid">
-                  <div className="wpf-demo-4">
-                    <a href="images/restaurant/tulsi_restaurant/11.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/restaurant/tulsi_restaurant/11.jpeg" className="img-responsive"/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/restaurant/tulsi_restaurant/12.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/restaurant/tulsi_restaurant/12.jpeg" className="img-responsive"/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/restaurant/tulsi_restaurant/13.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/restaurant/tulsi_restaurant/13.jpeg" className="img-responsive"/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/restaurant/tulsi_restaurant/14.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/restaurant/tulsi_restaurant/14.jpeg" className="img-responsive"/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="wpf-demo-4">
-                    <a href="images/restaurant/tulsi_restaurant/15.jpeg" className="jzBoxLink item-hover">
-                      <img src="images/restaurant/tulsi_restaurant/15.jpeg" className="img-responsive"/>
-                      <div className="view-caption">
-                        <p>View Full</p>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div> */}
+              );
+            })}
+          </div>
         </div>
-        {/* <Script id="test" src="js/jzBox.js"></Script> */}
       </div>
     </div>
   );
