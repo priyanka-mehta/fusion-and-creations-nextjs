@@ -41,24 +41,24 @@ export default function Gallary1() {
           <h3>Our Gallery</h3>
           {isOpen &&
             <div
-              class="modal show"
-              tabindex="-1"
+              className="modal show"
+              tabIndex="-1"
               aria-labelledby="exampleModalLiveLabel"
               style={{ display: "block" }}
               aria-modal="true"
               role="dialog"
             >
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
                     <button
                       type="button"
-                      className="fa-close"
+                      className="fa fa-close"
                       aria-label="Close"
                       onClick={() => setIsOpen(false)}
                     />
                   </div>
-                  <div class="modal-body">
+                  <div className="modal-body">
                     <ImageGallery
                       items={activeViewFull}
                       useBrowserFullscreen={false}
