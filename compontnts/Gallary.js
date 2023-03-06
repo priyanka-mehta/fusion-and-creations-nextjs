@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   gallaryMenu,
   office1Images,
+  office2Images,
   residence1Images,
   residence2Images,
   residence3Images,
@@ -117,7 +118,7 @@ export default function Gallary1() {
           >
             {residence1Images.map((i, key) => {
               return (
-                <div className="col-sm-4 col-xs-4 gallery-grid">
+                <div className="col-sm-4 col-xs-4 gallery-grid" key={i.index}>
                   <div className="wpf-demo-4">
                     <a className="jzBoxLink item-hover">
                       <img src={i.original} className="img-responsive" alt="" />
@@ -141,7 +142,7 @@ export default function Gallary1() {
           >
             {residence2Images.map((i, key) => {
               return (
-                <div className="col-sm-4 col-xs-4 gallery-grid">
+                <div className="col-sm-4 col-xs-4 gallery-grid" key={i.index}>
                   <div className="wpf-demo-4">
                     <a className="jzBoxLink item-hover">
                       <img src={i.original} className="img-responsive" alt="" />
@@ -165,7 +166,7 @@ export default function Gallary1() {
           >
             {residence3Images.map((i, key) => {
               return (
-                <div className="col-sm-4 col-xs-4 gallery-grid">
+                <div className="col-sm-4 col-xs-4 gallery-grid" key={i.index}>
                   <div className="wpf-demo-4">
                     <a className="jzBoxLink item-hover">
                       <img src={i.original} className="img-responsive" alt="" />
@@ -218,12 +219,36 @@ export default function Gallary1() {
           >
             {office1Images.map((i, key) => {
               return (
-                <div className="col-sm-4 col-xs-4 gallery-grid">
+                <div className="col-sm-4 col-xs-4 gallery-grid" key={i.index}>
                   <div className="wpf-demo-4">
                     <a className="jzBoxLink item-hover">
                       <img src={i.original} className="img-responsive" alt="" />
                       <div className="view-caption">
                         <p onClick={() => handleViewFull(key, office1Images)}>
+                          View Full
+                        </p>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div
+            style={{
+              display: `${subTabIndex === "office2" ? "block" : "none"}`
+            }}
+          >
+            {office2Images.map((i, key) => {
+              return (
+                <div className="col-sm-4 col-xs-4 gallery-grid" key={i.index}>
+                  <div className="wpf-demo-4">
+                    <a className="jzBoxLink item-hover">
+                      <img src={i.original} className="img-responsive" alt="" />
+                      <div className="view-caption">
+                        <p
+                          onClick={() => handleViewFull(key, office2Images)}
+                        >
                           View Full
                         </p>
                       </div>
@@ -269,7 +294,7 @@ export default function Gallary1() {
           >
             {saloon1Images.map((i, key) => {
               return (
-                <div className="col-sm-4 col-xs-4 gallery-grid">
+                <div className="col-sm-4 col-xs-4 gallery-grid" key={i.index}>
                   <div className="wpf-demo-4">
                     <a className="jzBoxLink item-hover">
                       <img src={i.original} className="img-responsive" alt="" />
@@ -319,7 +344,7 @@ export default function Gallary1() {
           >
             {restaurant1Images.map((i, key) => {
               return (
-                <div className="col-sm-4 col-xs-4 gallery-grid">
+                <div className="col-sm-4 col-xs-4 gallery-grid" key={i.index}>
                   <div className="wpf-demo-4">
                     <a className="jzBoxLink item-hover">
                       <img src={i.original} className="img-responsive" alt="" />
