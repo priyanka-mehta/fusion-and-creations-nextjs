@@ -1,34 +1,43 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Viraas
 
-## Getting Started
+Website for **Viraas**, an interior design studio in Gandhidham, Kutch.
+*Timeless Roots. Modern Spaces.*
 
-First, run the development server:
+Built with Next.js (Pages Router) and React. No CSS framework: all styling lives in `styles/globals.css`.
+
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Where things are
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+| What | Where |
+| --- | --- |
+| All text, contact details, social links, projects and their photos | `content/site.js` |
+| Page sections | `components/` (Hero, About, Services, Work, Testimonials, Contact) |
+| Colours, fonts, spacing | top of `styles/globals.css` (`:root` variables) |
+| Page title, description, share preview, search-engine data | `pages/index.js` |
+| Fonts (Cormorant Garamond and Jost, from Google Fonts) | `pages/_document.js` |
+| Logo mark, favicon, share image | `components/Mark.js`, `public/favicon.svg`, `public/og.jpg` |
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## Common edits
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+**Change text or contact details:** edit `content/site.js`.
 
-## Learn More
+**Hide client names:** set `showClientNames` to `false` in `content/site.js`. Projects then show as "Residence 01", "Office 02" and so on.
 
-To learn more about Next.js, take a look at the following resources:
+**Add a project:** put photos in `public/images/<type>/<project>/`, then add an entry to `projects` in `content/site.js`. Each photo needs a full-size `.webp` (up to 2000px wide) and a small `-thumb.webp` (640px wide).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Change the look:** edit the colour variables at the top of `styles/globals.css`. The gold is `--gold`, the background is `--bg`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Before going live
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Set `NEXT_PUBLIC_SITE_URL` (for example `https://www.viraas.in`) in your hosting settings so share previews on WhatsApp and Facebook use full image links.
+- Replace `public/og.jpg` with a 1200 x 630 px share image.
+- The contact form opens the visitor's email app with the message filled in. To receive enquiries directly, connect a form service such as Formspree or Resend.
+- Eight photos in the Madhukant Shah project show the old "FC - The Designing Studio" logo on the walls, so they are hidden (see `oldLogoPhotos` in `content/site.js`). Swap in clean versions when you have them.
+- Confirm the phone number and email in `content/site.js` are the ones Viraas wants to publish.
