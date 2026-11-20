@@ -8,7 +8,8 @@ import Work from "../components/Work";
 import Testimonials from "../components/Testimonials";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
-import { brand, contact, siteUrl, srcSetFor } from "../content/site";
+import ContactBar from "../components/ContactBar";
+import { brand, contact, enquiryMessage, siteUrl, srcSetFor } from "../content/site";
 
 const title = `${brand.name} | ${brand.descriptor} in Gandhidham, Kutch`;
 const description = `${brand.name}: ${brand.tagline} ${brand.heroSub}`;
@@ -78,6 +79,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
+      <ContactBar message={enquiryMessage()} />
     </>
   );
 }

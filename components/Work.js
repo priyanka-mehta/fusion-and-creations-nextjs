@@ -47,8 +47,8 @@ export default function Work() {
                   <img
                     src={cover.src}
                     srcSet={srcSetFor(cover.src)}
-                    sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw"
-                    alt=""
+                    sizes="(max-width: 600px) 100vw, (max-width: 960px) 56vw, 38vw"
+                    alt={project.coverAlt || ""}
                     loading="lazy"
                   />
                   <span className="card__body">

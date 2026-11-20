@@ -32,6 +32,7 @@ export const about = {
   ],
   // The old stock photo of a laptop was replaced with one of your own projects.
   image: "/images/office/virali_mehta/5.webp",
+  imageAlt: "Display shelving with pendant lights and handcrafted decor in the Viraas studio",
   closing:
     "Our team takes over everything, from an idea and concept development to realization. We believe in traditions and incorporate them within our innovations. Client is the soul of the project.",
 };
@@ -41,6 +42,9 @@ export const about = {
 export const founder = {
   name: "Virali Mehta",
   role: "Founder & CEO",
+  // Add a square portrait (at least 300 x 300px), e.g. "/images/founder/virali.webp",
+  // and it appears beside her title.
+  photo: null,
   bio: "Virali founded the studio in Gandhidham in 2019, after gaining experience at two design firms. Since then the team has completed residential, commercial and restaurant projects, each one shaped around the client's own taste.",
   quote:
     "My interior designs aim to translate the client's ideas and a holistic professional vision into a space that fuses aesthetics, comfort and practicality, and reflects the client's personality.",
@@ -61,11 +65,11 @@ export const press = [
 export const services = [
   {
     title: "Consultation",
-    text: "We provide designs and the working drawings only to the client and rest is client's responsibility.",
+    text: "Design-only option: we deliver concepts and working drawings, and you manage the build.",
   },
   {
     title: "Space Planning",
-    text: "We do planning for home and other commercial interior drawing, so that we can bring creativity along with innovation in your space.",
+    text: "Layouts for homes and commercial spaces that make every square foot work, balancing flow, storage and light.",
   },
   {
     title: "Lighting",
@@ -76,20 +80,29 @@ export const services = [
     text: "This is the best way to add personality to your home. Pieces of art and different accessories are a reflection of your true taste.",
   },
   {
+    // Made by outside workshops, not in-house, so don't claim "built in-house".
     title: "Fabrication",
-    text: "Standard and custom design-fabrication providing a complete package of your needs with a focus on digital fabrication methods; fabricates architectural products and furniture.",
+    text: "Custom furniture, panelling and fixtures, made to our designs.",
   },
   {
     title: "Turnkey Solutions",
-    text: "We also provide turnkey solutions which are easily developed and deployed into current design.",
+    text: "We handle everything from design to handover, so you get one team and one point of contact.",
+  },
+];
+
+// Promises rather than services, shown as a short strip under the services list.
+export const promises = [
+  {
+    title: "On-time handover",
+    text: "From first concept to installation, we plan the project around your deadline.",
   },
   {
-    title: "Timely Delivery",
-    text: "From initial concept through to design, installation and completion. Timely completion of the project is our main goal.",
+    title: "Always reachable",
+    text: "Questions mid-project? Call or WhatsApp us any time.",
   },
   {
-    title: "Always Available",
-    text: "If you need any urgency then contact us anytime. We are always happy to help you.",
+    title: "Your taste first",
+    text: "Every design starts from how you live and what you love.",
   },
 ];
 
@@ -119,7 +132,7 @@ export const testimonials = [
 
 export const contact = {
   intro:
-    "How we can help you. We like to talk and on the strength of that you are invited for a coffee at our office.",
+    "Tell us about your space. The first conversation (and the coffee) is on us.",
   address: [
     "D-105/106, 1st Floor",
     "B.B.Z. S-51, Zanda Chowk,",
@@ -158,12 +171,14 @@ export const showProjectsWithOldLogo = false;
 
 // "client" is shown on the old site as the project caption. Check that each client is
 // happy to be named publicly, otherwise use "title" only.
+// "coverAlt" describes the first photo for screen readers and image search.
 // Optional per project, shown on its page (/work/<slug>) when set:
 //   summary: "A short paragraph about the brief and the design.",
 //   location: "Gandhidham", year: 2022, area: "2,400 sq ft", scope: "Full interiors"
 const allProjects = [
   {
     slug: "ashok-vora-residence",
+    coverAlt: "Living and dining area with a white open-shelf partition, navy sofa with lime cushions and a light-wood dining table",
     category: "Residence",
     title: "Residence",
     client: "Mr. Ashok Vora",
@@ -171,6 +186,7 @@ const allProjects = [
   },
   {
     slug: "suresh-sorathiya-residence",
+    coverAlt: "Bedroom with a grey-and-gold patterned feature wall, wall-mounted TV and low wooden console",
     category: "Residence",
     title: "Residence",
     client: "Mr. Suresh Sorathiya",
@@ -188,15 +204,18 @@ const allProjects = [
     ),
   },
   {
-    slug: "virali-mehta-office",
+    slug: "viraas-studio",
+    coverAlt: "Display shelving with pendant lights and handcrafted decor in the Viraas studio",
     category: "Office",
     title: "Office",
-    client: "Virali Mehta",
+    // The studio's own office.
+    client: "The Viraas Studio",
     // Photo 1 is left out: it shows the old "FUSION & CREATIONS" sign on the glass.
     images: photos("office/virali_mehta", [5, 3, 2, 4]),
   },
   {
     slug: "hitesh-mehta-office",
+    coverAlt: "Corner office cabin with a glass-topped desk, timber ceiling and full-height windows",
     category: "Office",
     title: "Office",
     client: "Mr. Hitesh Mehta",
@@ -204,6 +223,7 @@ const allProjects = [
   },
   {
     slug: "rakhi-shah-salon",
+    coverAlt: "Salon station with a full-length mirror column, brick-effect wall and black styling chair",
     category: "Salon",
     title: "Salon",
     client: "Rakhi Shah",
@@ -211,6 +231,7 @@ const allProjects = [
   },
   {
     slug: "tulsi-restaurant",
+    coverAlt: "Warmly lit restaurant dining room with tan upholstered chairs and exposed-bulb ceiling lights",
     category: "Restaurant",
     title: "Tulsi Restaurant",
     client: "Tulsi Restaurant",
@@ -228,3 +249,13 @@ export function projectLabel(project) {
   const n = projects.filter((p) => p.category === project.category).indexOf(project) + 1;
   return `${project.category} ${String(n).padStart(2, "0")}`;
 }
+
+// A wa.me link that opens WhatsApp with the message already typed.
+export const whatsappLink = (message) =>
+  `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(message)}`;
+
+// "Hi Viraas, I'd like to discuss a residence project."
+export const enquiryMessage = (type) =>
+  type && type !== "Other"
+    ? `Hi ${brand.name}, I'd like to discuss a ${type.toLowerCase()} project.`
+    : `Hi ${brand.name}, I'd like to discuss a project.`;

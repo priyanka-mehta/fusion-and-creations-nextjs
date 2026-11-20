@@ -12,14 +12,21 @@ export default function Founder() {
           <h2 className="h2">
             {first} <em>{rest.join(" ")}.</em>
           </h2>
-          <p className="founder__role">{founder.role}</p>
+          {founder.photo ? (
+            <div className="founder__id">
+              <img className="founder__photo" src={founder.photo} alt={`Portrait of ${founder.name}`} loading="lazy" />
+              <p className="founder__role">{founder.role}</p>
+            </div>
+          ) : (
+            <p className="founder__role">{founder.role}</p>
+          )}
           <p className="lead">{founder.bio}</p>
           <blockquote className="founder__quote">
             <p>“{founder.quote}”</p>
           </blockquote>
         </Reveal>
 
-        <Reveal className="founder__press" delay={0.15}>
+        <Reveal className="founder__press" delay={0.05}>
           <span className="founder__label">Featured in</span>
           {press.map((item) => (
             <a

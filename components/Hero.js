@@ -2,6 +2,7 @@ import Mark from "./Mark";
 import { brand, srcSetFor } from "../content/site";
 
 export const HERO_IMAGE = "/images/office/hitesh_mehta/2.webp";
+const HERO_ALT = "Open-plan office with timber beams, glass-walled cabins and blue lounge seating";
 
 export default function Hero() {
   // "Timeless Roots. Modern Spaces." is shown as two lines, the second in gold italics.
@@ -14,7 +15,7 @@ export default function Hero() {
         src={HERO_IMAGE}
         srcSet={srcSetFor(HERO_IMAGE)}
         sizes="100vw"
-        alt=""
+        alt={HERO_ALT}
         fetchpriority="high"
       />
 

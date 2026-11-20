@@ -24,7 +24,7 @@ export default function Testimonials() {
 
         <div className="quotes">
           {testimonials.map((t, i) => (
-            <Reveal as="figure" className="quote" key={t.name} delay={i * 0.12} style={{ margin: 0 }}>
+            <Reveal as="figure" className="quote" key={t.name} delay={i * 0.05} style={{ margin: 0 }}>
               <span className="quote__glyph" aria-hidden="true">
                 “
               </span>

@@ -1,5 +1,5 @@
 import Reveal from "./Reveal";
-import { services } from "../content/site";
+import { promises, services } from "../content/site";
 
 export default function Services() {
   return (
@@ -14,7 +14,7 @@ export default function Services() {
 
         <div className="services__list">
           {services.map((service, i) => (
-            <Reveal className="service" key={service.title} delay={(i % 2) * 0.12}>
+            <Reveal className="service" key={service.title} delay={(i % 2) * 0.05}>
               <span className="service__n">{String(i + 1).padStart(2, "0")}</span>
               <div>
                 <h3>{service.title}</h3>
@@ -23,6 +23,18 @@ export default function Services() {
             </Reveal>
           ))}
         </div>
+
+        <Reveal className="promises">
+          <span className="eyebrow">Why Viraas</span>
+          <ul>
+            {promises.map((item) => (
+              <li key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
       </div>
     </section>
   );

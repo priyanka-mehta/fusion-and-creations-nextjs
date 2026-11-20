@@ -5,7 +5,8 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Reveal from "../../components/Reveal";
 import Lightbox from "../../components/Lightbox";
-import { brand, projects, projectLabel, siteUrl, srcSetFor } from "../../content/site";
+import ContactBar from "../../components/ContactBar";
+import { brand, enquiryMessage, projects, projectLabel, siteUrl, srcSetFor } from "../../content/site";
 
 export function getStaticPaths() {
   return {
@@ -81,7 +82,7 @@ export default function ProjectPage({ slug }) {
             src={cover.src}
             srcSet={srcSetFor(cover.src)}
             sizes="100vw"
-            alt=""
+            alt={project.coverAlt || ""}
             fetchpriority="high"
           />
           <div className="container phero__inner">
@@ -137,7 +138,7 @@ export default function ProjectPage({ slug }) {
                     src={image.thumb}
                     srcSet={srcSetFor(image.src)}
                     sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw"
-                    alt={`${label}, photo ${i + 1}`}
+                    alt={i === 0 && project.coverAlt ? project.coverAlt : `${label}, photo ${i + 1}`}
                     loading={i < 3 ? "eager" : "lazy"}
                   />
                 </button>
@@ -189,6 +190,7 @@ export default function ProjectPage({ slug }) {
         )}
       </main>
       <Footer />
+      <ContactBar message={`${enquiryMessage(project.category)} I saw the ${label} project on your website.`} />
 
       {active !== null && (
         <Lightbox

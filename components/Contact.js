@@ -1,21 +1,41 @@
 import { useState } from "react";
 import Reveal from "./Reveal";
 import { ChatIcon, FacebookIcon, InstagramIcon } from "./Icons";
-import { brand, categories, contact } from "../content/site";
-
-const whatsappLink = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(
-  `Hello ${brand.name}, I would like to discuss a project.`
-)}`;
+import { brand, categories, contact, enquiryMessage, whatsappLink } from "../content/site";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
+  const [type, setType] = useState(categories[0]);
+
+  const fields = (form) => {
+    const data = new FormData(form);
+    return (key) => String(data.get(key) || "").trim();
+  };
+
+  // Works on every phone, unlike the email option: opens WhatsApp with the enquiry typed out.
+  const sendOnWhatsApp = (e) => {
+    const form = e.currentTarget.form;
+    if (!form.reportValidity()) return;
+    const field = fields(form);
+    const text = [
+      enquiryMessage(field("type")),
+      "",
+      `Name: ${field("name")}`,
+      `Phone: ${field("phone")}`,
+      field("email") ? `Email: ${field("email")}` : null,
+      "",
+      field("message"),
+    ]
+      .filter((line) => line !== null)
+      .join("\n");
+    window.open(whatsappLink(text), "_blank", "noopener");
+  };
 
   // There is no server behind this form yet, so it opens the visitor's email app
   // with the message filled in. See README for how to connect a real form service.
   const onSubmit = (e) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const field = (key) => String(data.get(key) || "").trim();
+    const field = fields(e.currentTarget);
     const subject = `Project enquiry from ${field("name")} (${field("type")})`;
     const body = [
       `Name: ${field("name")}`,
@@ -69,7 +89,7 @@ export default function Contact() {
           </dl>
 
           <div className="contact__actions">
-            <a className="btn btn--gold" href={whatsappLink} target="_blank" rel="noopener noreferrer">
+            <a className="btn btn--gold" href={whatsappLink(enquiryMessage(type))} target="_blank" rel="noopener noreferrer">
               <ChatIcon /> WhatsApp us
             </a>
             <a className="btn btn--ghost" href={contact.mapsLink} target="_blank" rel="noopener noreferrer">
@@ -87,7 +107,7 @@ export default function Contact() {
           </div>
         </Reveal>
 
-        <Reveal delay={0.15}>
+        <Reveal delay={0.05}>
           <form className="form" onSubmit={onSubmit}>
             <h3>Tell us about your project</h3>
             <div className="form__grid">
@@ -97,15 +117,15 @@ export default function Contact() {
               </label>
               <label className="field">
                 <span>Phone</span>
-                <input name="phone" type="tel" autoComplete="tel" />
+                <input name="phone" type="tel" required autoComplete="tel" />
               </label>
               <label className="field">
                 <span>Email</span>
-                <input name="email" type="email" required autoComplete="email" />
+                <input name="email" type="email" autoComplete="email" />
               </label>
               <label className="field">
                 <span>Project type</span>
-                <select name="type" defaultValue={categories[0]}>
+                <select name="type" value={type} onChange={(e) => setType(e.target.value)}>
                   {categories.map((c) => (
                     <option key={c} value={c}>
                       {c}
@@ -119,13 +139,18 @@ export default function Contact() {
                 <textarea name="message" required rows={4} />
               </label>
             </div>
-            <button type="submit" className="btn btn--gold">
-              Send enquiry
-            </button>
+            <div className="form__actions">
+              <button type="button" className="btn btn--gold" onClick={sendOnWhatsApp}>
+                <ChatIcon /> Send on WhatsApp
+              </button>
+              <button type="submit" className="btn btn--ghost">
+                Send by email
+              </button>
+            </div>
             <p className="form__note" aria-live="polite">
               {sent
-                ? "Your email app should have opened with the message ready to send. If it did not, please write to us at the address on the left."
-                : "This opens your email app with your message ready to send."}
+                ? "Your email app should have opened with the message ready to send. If it did not, please WhatsApp or call us instead."
+                : "Both options open with your message ready to send."}
             </p>
           </form>
         </Reveal>

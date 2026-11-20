@@ -29,7 +29,7 @@ export default function Reveal({
         });
       },
       // Start just before the element scrolls into view, so fast scrolling never shows gaps.
-      { threshold: 0, rootMargin: "0px 0px 100px 0px" }
+      { threshold: 0, rootMargin: "0px 0px 25% 0px" }
     );
     io.observe(el);
     return () => io.disconnect();

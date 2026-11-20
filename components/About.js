@@ -10,12 +10,12 @@ export default function About() {
             src={about.image}
             srcSet={srcSetFor(about.image)}
             sizes="(max-width: 900px) 100vw, min(40vw, 560px)"
-            alt="A warmly lit interior designed by the studio"
+            alt={about.imageAlt}
             loading="lazy"
           />
         </Reveal>
 
-        <Reveal className="about__text" delay={0.15}>
+        <Reveal className="about__text" delay={0.05}>
           <span className="eyebrow">{about.heading}</span>
           <h2 className="h2">{about.headline}</h2>
           <p className="lead">{about.body}</p>
