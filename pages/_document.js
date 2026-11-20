@@ -1,65 +1,45 @@
 import { Html, Head, Main, NextScript } from "next/document";
-import Script from "next/script";
+import { themes, defaultTheme } from "../content/themes";
 
 export default function Document() {
   return (
-    <Html>
+    <Html lang="en">
       <Head>
-        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charSet="utf-8" />
+        <meta name="theme-color" content="#0c0a08" />
         <meta
           name="keywords"
-          content="Best Interior Designer in Gandhidham, Kutch, Gujarat"
-        />
-        <meta
-          name="description"
-          content="Fusion and Creation is leading contemporary interior design firm in gandhidham"
-        />
-        <link rel="icon" href="/favicon.ico" />
-        {/* mobile apps*/}
-        <link
-          href="css/bootstrap.css"
-          type="text/css"
-          rel="stylesheet"
-          media="all"
-        />
-        <link
-          href="css/style.css"
-          type="text/css"
-          rel="stylesheet"
-          media="all"
-        />
-        <link href="css/font-awesome.css" rel="stylesheet" />
-        <link href="css/percircle.css" rel="stylesheet" />
-
-        {/* web-fonts */}
-        <link
-          href="https://fonts.googleapis.com/css?family=Buda:300&display=swap"
-          rel="stylesheet"
-          type="text/css"
-        />
-        <link
-          href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic&display=swap"
-          rel="stylesheet"
-          type="text/css"
-        />
-        {/* web-fonts */}
-        <Script
-          src="js/jzBox.js"
-          onLoad={() => console.log(`JZBOX script loaded correctly`)}
-        />
-        <Script
-          src="https://cdnjs.cloudflare.com/ajax/libs/jarallax/1.10.7/jarallax.min.js"
-          onLoad={() => console.log(`JARALLAX script loaded correctly`)}
+          content="Interior designer in Gandhidham, Kutch, Gujarat, Viraas, interior design studio, home interiors, office interiors"
         />
 
-        <Script
-          src="js/modernizr.custom.js"
-          onLoad={() => console.log(`MODERNIZR script loaded correctly`)}
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+        {/* Self-hosted fonts (see globals.css); preloaded because the hero uses all three */}
+        {["cormorant-garamond-latin", "cormorant-garamond-italic-latin", "jost-latin"].map((name) => (
+          <link
+            key={name}
+            rel="preload"
+            href={`/fonts/${name}.woff2`}
+            as="font"
+            type="font/woff2"
+            crossOrigin="anonymous"
+          />
+        ))}
+
+        {/* Lets the CSS enable scroll animations only when JavaScript is running */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
         />
-        <Script src="js/easing.js" />
-        <Script src="js/bootstrap.js" />
-        <Script src="js/jquery-2.2.3.min.js" />
-        <Script src="js/custom.js" />
+
+        {/* Applies a preview theme (?theme=<id>) before first paint, so there is no flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var p=new URLSearchParams(location.search),t=p.get('theme'),s=null,r=document.documentElement;try{s=sessionStorage.getItem('previewTheme')}catch(e){}t=t||s;if(t||p.has('preview'))r.classList.add('has-themebar');if(t&&t!=='${defaultTheme}'&&${JSON.stringify(themes.map((t) => t.id))}.indexOf(t)>-1)r.setAttribute('data-theme',t);})()`,
+          }}
+        />
       </Head>
       <body>
         <Main />
