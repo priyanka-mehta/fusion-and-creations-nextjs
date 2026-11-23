@@ -65,7 +65,7 @@ export default function Work() {
                     className="card__img--wide"
                     src={altWide.src}
                     srcSet={srcSetFor(altWide.src)}
-                    sizes="66vw"
+                    sizes="min(61vw, 760px)"
                     alt=""
                     loading="lazy"
                   />
@@ -74,12 +74,14 @@ export default function Work() {
                   className="card__img--cover"
                   src={cover.src}
                   srcSet={srcSetFor(cover.src)}
+                  // Real on-screen widths: the page is at most 1280px wide (1152px inside its
+                  // margins), so a third-width card never exceeds ~370px and a wide one ~760px.
                   sizes={
                     wide && isAll
-                      ? "(max-width: 600px) 100vw, (max-width: 960px) 100vw, 66vw"
+                      ? "(max-width: 960px) 100vw, min(61vw, 760px)"
                       : wide && !altWide
-                      ? "(max-width: 600px) 100vw, (max-width: 960px) 56vw, 66vw"
-                      : "(max-width: 600px) 100vw, (max-width: 960px) 56vw, 38vw"
+                      ? "(max-width: 600px) 100vw, (max-width: 960px) 45vw, min(61vw, 760px)"
+                      : "(max-width: 600px) 100vw, (max-width: 960px) 45vw, min(30vw, 370px)"
                   }
                   alt={project.coverAlt || ""}
                   loading="lazy"

@@ -4,8 +4,24 @@
 import imageWidths from "./image-widths.json";
 
 // Set NEXT_PUBLIC_SITE_URL (for example https://www.viraas.in) so share previews
-// on WhatsApp, Facebook and Google use full image links.
+// on WhatsApp, Facebook and Google use full image links (see next.config.js; on Vercel it
+// falls back to the production domain).
 export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/$/, "");
+
+// Full URL for a path ("/work/x" -> "https://www.viraas.in/work/x"); the bare path if unset.
+export const absoluteUrl = (path = "/") => `${siteUrl}${path}`;
+
+// Share image (public/og.jpg), sized to what WhatsApp, Facebook and LinkedIn expect.
+export const shareImage = {
+  src: "/og.jpg",
+  width: 1200,
+  height: 630,
+  alt: "Viraas, interior design studio in Gandhidham, Kutch: Timeless Roots. Modern Spaces.",
+};
+
+// Places the studio serves, given to search engines as its service area. Add towns you
+// work in (for example "Adipur", "Anjar", "Bhuj") to help people there find you.
+export const serviceAreas = ["Gandhidham", "Kutch"];
 
 export const brand = {
   name: "Viraas",
@@ -209,6 +225,7 @@ const photos = (folder, stems) =>
   stems.map((s) => ({
     src: `/images/${folder}/${s}.webp`,
     thumb: `/images/${folder}/${s}-thumb.webp`,
+    xs: `/images/${folder}/${s}-xs.webp`, // tiny, for the full-screen viewer's thumbnail strip
   }));
 
 // Projects marked "hasOldLogo" have the old "FC - Fusion & Creations - The Designing Studio"
@@ -351,3 +368,21 @@ export const enquiryMessage = (type) =>
   type && type !== "Other"
     ? `Hi ${brand.name}, I'd like to discuss a ${type.toLowerCase()} project.`
     : `Hi ${brand.name}, I'd like to discuss a project.`;
+
+// Pixel size of a photo's full-size file, [width, height] (for share-preview tags).
+export const sizeOf = (src) => {
+  const [, , w, h] = imageWidths[src] || [];
+  return [w || 2000, h || 1333];
+};
+
+// Where a project is, for its page title and search results.
+export const projectPlace = (project) => project.location || "Gandhidham, Kutch";
+
+// Search-result description for a project page: its own summary if one is written,
+// otherwise built from the cover photo's description, so every page reads differently.
+export function projectDescription(project) {
+  if (project.summary) return project.summary;
+  const intro = `${projectLabel(project)}: ${project.category.toLowerCase()} interior design by ${brand.name} in ${projectPlace(project)}.`;
+  const detail = project.coverAlt ? ` ${project.coverAlt}.` : "";
+  return `${intro}${detail} ${project.images.length} photos.`;
+}
