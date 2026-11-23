@@ -6,7 +6,18 @@ import Footer from "../../components/Footer";
 import Reveal from "../../components/Reveal";
 import Lightbox from "../../components/Lightbox";
 import ContactBar from "../../components/ContactBar";
-import { brand, enquiryMessage, projects, projectLabel, siteUrl, srcSetFor } from "../../content/site";
+import {
+  absoluteUrl,
+  brand,
+  enquiryMessage,
+  projectDescription,
+  projectLabel,
+  projectPlace,
+  projects,
+  siteUrl,
+  sizeOf,
+  srcSetFor,
+} from "../../content/site";
 
 export function getStaticPaths() {
   return {
@@ -43,10 +54,38 @@ export default function ProjectPage({ slug }) {
 
   const label = projectLabel(project);
   const cover = project.images[0];
-  const title = `${label} | ${project.category} interior by ${brand.name}`;
-  const description =
-    project.summary ||
-    `${project.category} interior design by ${brand.name}, ${brand.city}. ${project.images.length} photos.`;
+  const place = projectPlace(project).split(",")[0];
+  const title = `${label} | ${project.category} Interior in ${place} | ${brand.name}`;
+  const description = projectDescription(project);
+  const url = absoluteUrl(`/work/${project.slug}`);
+  const [coverWidth, coverHeight] = sizeOf(cover.src);
+
+  // Tells search engines this page is a portfolio project by the studio, with its photos,
+  // plus the breadcrumb trail shown in results (Work > Office > Mr. Gadhvi).
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CreativeWork",
+        name: label,
+        headline: title,
+        description,
+        url,
+        genre: `${project.category} interior design`,
+        image: project.images.slice(0, 10).map((image) => absoluteUrl(image.src)),
+        locationCreated: { "@type": "Place", name: projectPlace(project) },
+        creator: { "@type": "InteriorDesigner", name: brand.name, url: absoluteUrl("/") },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Work", item: absoluteUrl("/#work") },
+          { "@type": "ListItem", position: 2, name: project.category },
+          { "@type": "ListItem", position: 3, name: label, item: url },
+        ],
+      },
+    ],
+  };
   const facts = FACTS.filter(([, key]) => project[key]);
 
   return (
@@ -55,12 +94,25 @@ export default function ProjectPage({ slug }) {
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {siteUrl && <link rel="canonical" href={url} />}
         <meta property="og:type" content="article" />
         <meta property="og:site_name" content={brand.name} />
+        <meta property="og:locale" content="en_IN" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:image" content={`${siteUrl}${cover.src}`} />
+        {siteUrl && <meta property="og:url" content={url} />}
+        <meta property="og:image" content={absoluteUrl(cover.src)} />
+        <meta property="og:image:width" content={String(coverWidth)} />
+        <meta property="og:image:height" content={String(coverHeight)} />
+        {project.coverAlt && <meta property="og:image:alt" content={project.coverAlt} />}
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={absoluteUrl(cover.src)} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         <link
           rel="preload"
           as="image"

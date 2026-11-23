@@ -9,7 +9,16 @@ import Testimonials from "../components/Testimonials";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 import ContactBar from "../components/ContactBar";
-import { brand, contact, enquiryMessage, siteUrl, srcSetFor } from "../content/site";
+import {
+  absoluteUrl,
+  brand,
+  contact,
+  enquiryMessage,
+  serviceAreas,
+  shareImage,
+  siteUrl,
+  srcSetFor,
+} from "../content/site";
 
 const title = `${brand.name} | ${brand.descriptor} in Gandhidham, Kutch`;
 const description = `${brand.name}: ${brand.tagline} ${brand.heroSub}`;
@@ -23,8 +32,10 @@ const structuredData = {
   foundingDate: String(brand.established),
   telephone: contact.phone,
   email: contact.email,
-  image: `${siteUrl}/og.jpg`,
+  image: absoluteUrl(shareImage.src),
+  logo: absoluteUrl("/apple-touch-icon.png"),
   url: siteUrl || undefined,
+  areaServed: serviceAreas.map((name) => ({ "@type": "Place", name })),
   address: {
     "@type": "PostalAddress",
     streetAddress: "D-105/106, 1st Floor, B.B.Z. S-51, Zanda Chowk",
@@ -44,12 +55,22 @@ export default function Home() {
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+        {siteUrl && <link rel="canonical" href={absoluteUrl("/")} />}
+
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content={brand.name} />
+        <meta property="og:locale" content="en_IN" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:image" content={`${siteUrl}/og.jpg`} />
+        {siteUrl && <meta property="og:url" content={absoluteUrl("/")} />}
+        <meta property="og:image" content={absoluteUrl(shareImage.src)} />
+        <meta property="og:image:width" content={String(shareImage.width)} />
+        <meta property="og:image:height" content={String(shareImage.height)} />
+        <meta property="og:image:alt" content={shareImage.alt} />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={absoluteUrl(shareImage.src)} />
 
         <link
           rel="preload"
