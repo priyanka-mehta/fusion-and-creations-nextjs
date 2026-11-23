@@ -184,10 +184,15 @@ export default function ProjectPage({ slug }) {
                   }}
                   aria-label={`Open photo ${i + 1} of ${project.images.length}`}
                 >
+                  {/* width/height reserve each photo's space before it loads. Without them every
+                      photo starts zero-height, so the browser thinks all are on screen and
+                      ignores lazy loading (a 40-photo project downloaded ~13 MB up front). */}
                   <img
                     src={image.thumb}
                     srcSet={srcSetFor(image.src)}
-                    sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 33vw"
+                    width={sizeOf(image.src)[0]}
+                    height={sizeOf(image.src)[1]}
+                    sizes="(max-width: 600px) 100vw, (max-width: 960px) 45vw, min(30vw, 375px)"
                     alt={i === 0 && project.coverAlt ? project.coverAlt : `${label}, photo ${i + 1}`}
                     loading={i < 3 ? "eager" : "lazy"}
                   />
@@ -209,7 +214,7 @@ export default function ProjectPage({ slug }) {
                     <img
                       src={p.images[0].thumb}
                       srcSet={srcSetFor(p.images[0].src)}
-                      sizes="(max-width: 700px) 100vw, 50vw"
+                      sizes="(max-width: 700px) 100vw, min(46vw, 570px)"
                       alt=""
                       loading="lazy"
                     />

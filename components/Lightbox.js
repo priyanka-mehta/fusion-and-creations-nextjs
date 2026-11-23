@@ -4,6 +4,10 @@ import { fullWidthOf, srcSetFor } from "../content/site";
 
 // Full-screen photo gallery for one project.
 // Keys: Esc closes, arrow keys move. On touch screens, swipe left or right.
+// On desktop, declare the photo's real width so small photos show at their true size
+// instead of being stretched (see .lb__img in globals.css). Phones fill the width.
+const viewerSizes = (src) => `(min-width: 961px) ${fullWidthOf(src)}px, 100vw`;
+
 export default function Lightbox({ title, category, images, start = 0, onClose }) {
   const [index, setIndex] = useState(start);
   const total = images.length;
@@ -58,9 +62,14 @@ export default function Lightbox({ title, category, images, start = 0, onClose }
     if (thumb && thumb.scrollIntoView) {
       thumb.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
     }
+    // Fetch the neighbouring photos ahead of a swipe, choosing the same file the viewer will
+    // show (sizes before srcset), so phones get the medium file instead of the full-size one.
     [1, -1].forEach((step) => {
+      const { src } = images[(index + step + total) % total];
       const img = new Image();
-      img.src = images[(index + step + total) % total].src;
+      img.sizes = viewerSizes(src);
+      img.srcset = srcSetFor(src);
+      img.src = src;
     });
   }, [index, images, total]);
 
@@ -100,9 +109,7 @@ export default function Lightbox({ title, category, images, start = 0, onClose }
           className="lb__img"
           src={images[index].src}
           srcSet={srcSetFor(images[index].src)}
-          // On desktop, declare the photo's real width so small photos show at their true size
-          // instead of being stretched (see .lb__img in globals.css). Phones fill the width.
-          sizes={`(min-width: 961px) ${fullWidthOf(images[index].src)}px, 100vw`}
+          sizes={viewerSizes(images[index].src)}
           alt={`${title}, photo ${index + 1} of ${total}`}
         />
         <button type="button" className="lb__nav lb__nav--prev" onClick={() => go(-1)} aria-label="Previous photo">
@@ -123,7 +130,7 @@ export default function Lightbox({ title, category, images, start = 0, onClose }
             aria-label={`Show photo ${i + 1}`}
             aria-current={i === index ? "true" : undefined}
           >
-            <img src={image.thumb} alt="" loading="lazy" />
+            <img src={image.xs} alt="" loading="lazy" width="168" height="120" />
           </button>
         ))}
       </div>

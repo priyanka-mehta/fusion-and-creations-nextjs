@@ -225,6 +225,7 @@ const photos = (folder, stems) =>
   stems.map((s) => ({
     src: `/images/${folder}/${s}.webp`,
     thumb: `/images/${folder}/${s}-thumb.webp`,
+    xs: `/images/${folder}/${s}-xs.webp`, // tiny, for the full-screen viewer's thumbnail strip
   }));
 
 // Projects marked "hasOldLogo" have the old "FC - Fusion & Creations - The Designing Studio"
