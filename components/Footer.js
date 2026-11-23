@@ -15,9 +15,7 @@ export default function Footer() {
         <ul className="footer__nav">
           {navLinks.map((link) => (
             <li key={link.href}>
-              <Link href={link.href}>
-                <a>{link.label}</a>
-              </Link>
+              <Link href={link.href}>{link.label}</Link>
             </li>
           ))}
         </ul>

@@ -34,27 +34,21 @@ export default function Header() {
   return (
     <header className={`header${scrolled ? " is-scrolled" : ""}`}>
       <div className="container header__inner">
-        <Link href="/">
-          <a className="brand" onClick={close} aria-label={`${brand.name}, home`}>
-            <Mark />
-            <span className="brand__name">{brand.name}</span>
-          </a>
+        <Link href="/" className="brand" onClick={close} aria-label={`${brand.name}, home`}>
+          <Mark />
+          <span className="brand__name">{brand.name}</span>
         </Link>
 
         <nav id="site-nav" className={`nav${open ? " is-open" : ""}`} aria-label="Main">
           <ul>
             {navLinks.map((link) => (
               <li key={link.href}>
-                <Link href={link.href}>
-                  <a onClick={close}>{link.label}</a>
-                </Link>
+                <Link href={link.href} onClick={close}>{link.label}</Link>
               </li>
             ))}
             <li>
-              <Link href="/#contact">
-                <a className="btn btn--ghost btn--sm" onClick={close}>
-                  Book a consultation
-                </a>
+              <Link href="/#contact" className="btn btn--ghost btn--sm" onClick={close}>
+                Book a consultation
               </Link>
             </li>
           </ul>

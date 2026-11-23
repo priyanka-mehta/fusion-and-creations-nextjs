@@ -53,46 +53,46 @@ export default function Work() {
             // A filtered-view wide card may use a different (landscape) photo than the cover.
             const altWide = wide && wideImage !== cover ? wideImage : null;
             return (
-              <Link href={`/work/${project.slug}`} key={project.slug}>
-                <a
-                  className={`card${wide ? (isAll ? " card--wide" : " card--wide-desktop") : ""}`}
-                  style={{ animationDelay: `${i * 0.06}s` }}
-                  aria-label={`${project.category} project: ${projectLabel(project)}, ${project.images.length} photos`}
-                >
-                  {altWide && (
-                    <img
-                      className="card__img--wide"
-                      src={altWide.src}
-                      srcSet={srcSetFor(altWide.src)}
-                      sizes="66vw"
-                      alt=""
-                      loading="lazy"
-                    />
-                  )}
+              <Link
+                href={`/work/${project.slug}`}
+                key={project.slug}
+                className={`card${wide ? (isAll ? " card--wide" : " card--wide-desktop") : ""}`}
+                style={{ animationDelay: `${i * 0.06}s` }}
+                aria-label={`${project.category} project: ${projectLabel(project)}, ${project.images.length} photos`}
+              >
+                {altWide && (
                   <img
-                    className="card__img--cover"
-                    src={cover.src}
-                    srcSet={srcSetFor(cover.src)}
-                    sizes={
-                      wide && isAll
-                        ? "(max-width: 600px) 100vw, (max-width: 960px) 100vw, 66vw"
-                        : wide && !altWide
-                        ? "(max-width: 600px) 100vw, (max-width: 960px) 56vw, 66vw"
-                        : "(max-width: 600px) 100vw, (max-width: 960px) 56vw, 38vw"
-                    }
-                    alt={project.coverAlt || ""}
+                    className="card__img--wide"
+                    src={altWide.src}
+                    srcSet={srcSetFor(altWide.src)}
+                    sizes="66vw"
+                    alt=""
                     loading="lazy"
                   />
-                  <span className="card__body">
-                    <span className="card__cat">{project.category}</span>
-                    <span className="card__title" style={{ display: "block" }}>
-                      {projectLabel(project)}
-                    </span>
-                    <span className="card__meta" style={{ display: "block" }}>
-                      {project.images.length} photos · View project
-                    </span>
+                )}
+                <img
+                  className="card__img--cover"
+                  src={cover.src}
+                  srcSet={srcSetFor(cover.src)}
+                  sizes={
+                    wide && isAll
+                      ? "(max-width: 600px) 100vw, (max-width: 960px) 100vw, 66vw"
+                      : wide && !altWide
+                      ? "(max-width: 600px) 100vw, (max-width: 960px) 56vw, 66vw"
+                      : "(max-width: 600px) 100vw, (max-width: 960px) 56vw, 38vw"
+                  }
+                  alt={project.coverAlt || ""}
+                  loading="lazy"
+                />
+                <span className="card__body">
+                  <span className="card__cat">{project.category}</span>
+                  <span className="card__title" style={{ display: "block" }}>
+                    {projectLabel(project)}
                   </span>
-                </a>
+                  <span className="card__meta" style={{ display: "block" }}>
+                    {project.images.length} photos · View project
+                  </span>
+                </span>
               </Link>
             );
           })}
