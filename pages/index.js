@@ -1,118 +1,85 @@
 import Head from "next/head";
-import Script from "next/script";
-import Banner from "../compontnts/Banner";
-import About from "../compontnts/About";
-import Services from "../compontnts/Services";
-import Products from "../compontnts/Products";
-import Gallary from "../compontnts/Gallary";
-import Contact from "../compontnts/Contact";
-import Footer from "../compontnts/Footer";
-import Feedback from "../compontnts/Feedback";
+import Header from "../components/Header";
+import Hero, { HERO_IMAGE } from "../components/Hero";
+import About from "../components/About";
+import Founder from "../components/Founder";
+import Services from "../components/Services";
+import Work from "../components/Work";
+import Testimonials from "../components/Testimonials";
+import Contact from "../components/Contact";
+import Footer from "../components/Footer";
+import ContactBar from "../components/ContactBar";
+import { brand, contact, enquiryMessage, siteUrl, srcSetFor } from "../content/site";
+
+const title = `${brand.name} | ${brand.descriptor} in Gandhidham, Kutch`;
+const description = `${brand.name}: ${brand.tagline} ${brand.heroSub}`;
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "InteriorDesigner",
+  name: brand.name,
+  slogan: brand.tagline,
+  description,
+  foundingDate: String(brand.established),
+  telephone: contact.phone,
+  email: contact.email,
+  image: `${siteUrl}/og.jpg`,
+  url: siteUrl || undefined,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "D-105/106, 1st Floor, B.B.Z. S-51, Zanda Chowk",
+    addressLocality: "Gandhidham",
+    addressRegion: "Gujarat",
+    postalCode: "370201",
+    addressCountry: "IN",
+  },
+  sameAs: [contact.instagram, contact.facebook],
+};
 
 export default function Home() {
   return (
-    <div>
+    <>
       <Head>
-        <title>Fusion and Creations</title>
+        <title>{title}</title>
+        <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content={brand.name} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={`${siteUrl}/og.jpg`} />
+        <meta name="twitter:card" content="summary_large_image" />
+
+        <link
+          rel="preload"
+          as="image"
+          href={HERO_IMAGE}
+          imageSrcSet={srcSetFor(HERO_IMAGE)}
+          imageSizes="100vw"
+          fetchpriority="high"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
       </Head>
-      <Banner />
-      <About />
-      <Services />
-      <Products />
-      <Gallary />
-      <Feedback />
-      <Contact />
+
+      <a className="skip" href="#main">
+        Skip to content
+      </a>
+      <Header />
+      <main id="main">
+        <Hero />
+        <About />
+        <Founder />
+        <Services />
+        <Work />
+        <Testimonials />
+        <Contact />
+      </main>
       <Footer />
-
-      {/* <!-- custom javascript start --> */}
-      {/* <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/jarallax/2.0.4/jarallax.min.js"
-        integrity="sha512-nvmYAfRcRhffFD47Bz2In79HI86Zw84cCPXs675EjUYqgLAkirq2N38LXI6U5r6UZ+vz2zqBWxRQaScpjPwF5A=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
-      /> */}
-      <Script
-        src="js/jzBox.js"
-        onLoad={() => console.log(`JZBOX script loaded correctly`)}
-      />
-      {/* <Script
-        id="test"
-        src="js/custom.js"
-        onLoad={() => console.log(`CUSTOM script loaded correctly`)}
-      /> */}
-
-      {/* <Script id="test">
-        $(document).ready(function () {
-          $('#home1Detail').hide();
-          $('#home2Detail').hide();
-          $('#home3Detail').hide();
-          $('#saloon1Detail').hide();
-          $('#restaurant1Detail').hide();
-          $('#office1Detail').hide();
-        });
-        $("#home1").click(function () {
-          $("#home1").hide();
-          $("#home2").hide();
-          $("#home3").hide();
-          $("#home1Detail").show();
-        });
-        $("#home2").click(function () {
-          $("#home1").hide();
-          $("#home2").hide();
-          $("#home3").hide();
-          $("#home2Detail").show();
-        });
-        $("#home3").click(function () {
-          $("#home1").hide();
-          $("#home2").hide();
-          $("#home3").hide();
-          $("#home3Detail").show();
-        });
-        $("#saloon1").click(function () {
-          $("#saloon1").hide();
-          $("#saloon1Detail").show();
-        });
-        $("#restaurant1").click(function () {
-          $("#restaurant1").hide();
-          $("#restaurant1Detail").show();
-        });
-        $("#office1").click(function () {
-          $("#home1").show();
-          $("#home2").show();
-          $("#home3").show();
-          $("#home1Detail").hide();
-          $("#home2Detail").hide();
-          $("#home3Detail").hide();
-          $("#office1").hide();
-          $("#office1Detail").show();
-        });
-      </Script> */}
-      {/* <!-- custom javascript end --> */}
-      {/* <!-- jarallax --> */}
-      {/* <Script id="test" src="js/SmoothScroll.min.js"></Script> */}
-      {/* <Script id="test" src="js/jarallax.js"></Script> */}
-
-      {/* <Script id="test" type="text/javascript">
-        $('.jarallax').jarallax({
-          speed: 0.5,
-          imgWidth: 1366,
-          imgHeight: 768
-        })
-      </Script> */}
-      {/* <!-- //jarallax --> */}
-
-      <Script
-        id="test"
-        src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"
-      />
-      {/* <!-- start-smooth-scrolling --> */}
-      {/* <Script id="test" type="text/javascript" src="js/move-top.js"></Script> */}
-      {/* <Script id="test" type="text/javascript" src="js/easing.js"></Script> */}
-      {/* <!-- //end-smooth-scrolling --> */}
-      {/* <!-- Bootstrap core JavaScript */}
-      {/* <!-- Placed at the end of the document so the pages load faster --> */}
-      {/* <Script id="test" src="js/bootstrap.js"></Script> */}
-    </div>
+      <ContactBar message={enquiryMessage()} />
+    </>
   );
 }
