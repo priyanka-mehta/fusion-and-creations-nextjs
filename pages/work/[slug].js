@@ -87,9 +87,7 @@ export default function ProjectPage({ slug }) {
           />
           <div className="container phero__inner">
             <nav className="crumbs fade-up" aria-label="Breadcrumb" style={{ "--d": "0s" }}>
-              <Link href="/#work">
-                <a>Work</a>
-              </Link>
+              <Link href="/#work">Work</Link>
               <span aria-hidden="true">/</span>
               <span>{project.category}</span>
             </nav>
@@ -155,35 +153,29 @@ export default function ProjectPage({ slug }) {
                   ["Previous project", prev],
                   ["Next project", next],
                 ].map(([dir, p]) => (
-                  <Link href={`/work/${p.slug}`} key={dir}>
-                    <a className="card pnav__card">
-                      <img
-                        src={p.images[0].thumb}
-                        srcSet={srcSetFor(p.images[0].src)}
-                        sizes="(max-width: 700px) 100vw, 50vw"
-                        alt=""
-                        loading="lazy"
-                      />
-                      <span className="card__body">
-                        <span className="card__cat">{dir}</span>
-                        <span className="card__title" style={{ display: "block" }}>
-                          {projectLabel(p)}
-                        </span>
-                        <span className="card__meta" style={{ display: "block" }}>
-                          {p.category} · {p.images.length} photos
-                        </span>
+                  <Link href={`/work/${p.slug}`} key={dir} className="card pnav__card">
+                    <img
+                      src={p.images[0].thumb}
+                      srcSet={srcSetFor(p.images[0].src)}
+                      sizes="(max-width: 700px) 100vw, 50vw"
+                      alt=""
+                      loading="lazy"
+                    />
+                    <span className="card__body">
+                      <span className="card__cat">{dir}</span>
+                      <span className="card__title" style={{ display: "block" }}>
+                        {projectLabel(p)}
                       </span>
-                    </a>
+                      <span className="card__meta" style={{ display: "block" }}>
+                        {p.category} · {p.images.length} photos
+                      </span>
+                    </span>
                   </Link>
                 ))}
               </div>
               <div className="pnav__cta">
-                <Link href="/#contact">
-                  <a className="btn btn--gold">Book a consultation</a>
-                </Link>
-                <Link href="/#work">
-                  <a className="btn btn--ghost">All projects</a>
-                </Link>
+                <Link href="/#contact" className="btn btn--gold">Book a consultation</Link>
+                <Link href="/#work" className="btn btn--ghost">All projects</Link>
               </div>
             </div>
           </section>

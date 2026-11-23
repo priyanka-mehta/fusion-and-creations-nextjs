@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   // Let browsers reuse photos and fonts on return visits instead of re-checking each one.
   async headers() {
     return [
