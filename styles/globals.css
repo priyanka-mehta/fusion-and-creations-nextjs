@@ -992,6 +992,8 @@ p {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 22px;
+  /* Lets a normal card fill a gap left before a wide (featured) card. */
+  grid-auto-flow: row dense;
 }
 .card {
   position: relative;
@@ -1015,7 +1017,14 @@ p {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(180deg, transparent 38%, rgba(var(--bg-rgb), 0.92) 100%);
+  /* Strong enough at the bottom that the text stays readable over bright, white-walled photos. */
+  background: linear-gradient(
+    180deg,
+    transparent 30%,
+    rgba(var(--bg-rgb), 0.55) 58%,
+    rgba(var(--bg-rgb), 0.88) 80%,
+    rgba(var(--bg-rgb), 0.96) 100%
+  );
 }
 .card::after {
   content: "";
@@ -1045,10 +1054,16 @@ p {
   padding: 30px;
 }
 .card__cat {
-  font-size: 11px;
+  font-size: 11.5px;
+  font-weight: 500;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--gold-light);
+}
+.card__cat,
+.card__title,
+.card__meta {
+  text-shadow: 0 1px 12px rgba(var(--bg-rgb), 0.7);
 }
 .card__title {
   margin-top: 8px;
@@ -1079,17 +1094,51 @@ p {
   }
 }
 
-/* A card left alone on the last row becomes a wide banner instead of a gap. */
+/* Double-width cards keep every row full (chosen in content/site.js, wideCardsFor).
+   "card--wide": featured projects in "All"; on tablets they fill a row on their own.
+   "card--wide-desktop": filtered views; desktop only, tablets show a normal card. */
+.card__img--wide {
+  display: none;
+}
 @media (min-width: 961px) {
-  .card:nth-child(3n + 1):last-child {
-    grid-column: 1 / -1;
-    aspect-ratio: 21 / 9;
+  .card--wide,
+  .card--wide-desktop {
+    grid-column: span 2;
+    aspect-ratio: auto;
+  }
+  /* Take the photo out of the flow so the row height comes from the normal card beside it. */
+  .card--wide img,
+  .card--wide-desktop img {
+    position: absolute;
+    inset: 0;
+  }
+  /* A wide card may swap its portrait cover for a landscape photo of the same project. */
+  .card--wide-desktop .card__img--wide {
+    display: block;
+  }
+  .card--wide-desktop .card__img--wide + .card__img--cover {
+    display: none;
   }
 }
 @media (min-width: 601px) and (max-width: 960px) {
-  .card:nth-child(odd):last-child {
+  .card--wide {
     grid-column: 1 / -1;
     aspect-ratio: 16 / 8;
+  }
+}
+
+/* A card left alone on the last row (or a single project) stays normal size and is centred,
+   rather than stretching into an oversized banner. */
+@media (min-width: 961px) {
+  .grid:not(.grid--wide) .card:nth-child(3n + 1):last-child {
+    grid-column: 2;
+  }
+}
+@media (min-width: 601px) and (max-width: 960px) {
+  .grid:not(.grid--featured) .card:nth-child(odd):last-child {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc(50% - 11px);
   }
 }
 
@@ -1322,6 +1371,13 @@ p {
   height: 100%;
   object-fit: contain;
   animation: fadeIn 0.5s var(--ease) both;
+}
+/* On large screens, never stretch small photos past their real size (it looks blurry).
+   Phones keep "contain" so every photo fills the width. */
+@media (min-width: 961px) {
+  .lb__img {
+    object-fit: scale-down;
+  }
 }
 .lb__nav {
   position: absolute;

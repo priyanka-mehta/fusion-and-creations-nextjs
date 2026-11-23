@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronIcon, CloseIcon } from "./Icons";
-import { srcSetFor } from "../content/site";
+import { fullWidthOf, srcSetFor } from "../content/site";
 
 // Full-screen photo gallery for one project.
 // Keys: Esc closes, arrow keys move. On touch screens, swipe left or right.
@@ -100,7 +100,9 @@ export default function Lightbox({ title, category, images, start = 0, onClose }
           className="lb__img"
           src={images[index].src}
           srcSet={srcSetFor(images[index].src)}
-          sizes="100vw"
+          // On desktop, declare the photo's real width so small photos show at their true size
+          // instead of being stretched (see .lb__img in globals.css). Phones fill the width.
+          sizes={`(min-width: 961px) ${fullWidthOf(images[index].src)}px, 100vw`}
           alt={`${title}, photo ${index + 1} of ${total}`}
         />
         <button type="button" className="lb__nav lb__nav--prev" onClick={() => go(-1)} aria-label="Previous photo">

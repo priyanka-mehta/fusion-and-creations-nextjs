@@ -1,6 +1,8 @@
 // All site content, extracted from the old components. The new design reads from here only.
 // Items marked TODO need your input before launch.
 
+import imageWidths from "./image-widths.json";
+
 // Set NEXT_PUBLIC_SITE_URL (for example https://www.viraas.in) so share previews
 // on WhatsApp, Facebook and Google use full image links.
 export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/$/, "");
@@ -148,12 +150,58 @@ export const contact = {
     "https://www.google.com/maps/search/?api=1&query=Zanda+Chowk+Gandhidham+Kutch+370201",
 };
 
-// Every photo has a full-size ".webp" (max 2000px wide), a "-md.webp" (1200px) and a
-// "-thumb.webp" (640px). Run `npm run images` after adding photos to create the "-md" files.
-// srcSetFor gives the browser all three so it downloads only the size it needs.
+// Every photo has a full-size ".webp", a "-md.webp" (up to 1200px) and a "-thumb.webp" (up to
+// 640px). Run `npm run images` after adding photos: it creates the "-md" files and records each
+// file's real width in image-widths.json. srcSetFor gives the browser every distinct size with
+// its true width, so it downloads only what it needs and never shows a small photo too small.
 export const srcSetFor = (src) => {
   const base = src.replace(/\.webp$/, "");
-  return `${base}-thumb.webp 640w, ${base}-md.webp 1200w, ${src} 2000w`;
+  const [thumb, md, full] = imageWidths[src] || [640, 1200, 2000];
+  // When two files share a width (small photos), keep the larger file: it is the higher-quality one.
+  const seen = new Set();
+  return [
+    [src, full],
+    [`${base}-md.webp`, md],
+    [`${base}-thumb.webp`, thumb],
+  ]
+    .filter(([, w]) => w && !seen.has(w) && seen.add(w))
+    .reverse()
+    .map(([file, w]) => `${file} ${w}w`)
+    .join(", ");
+};
+
+// Real pixel width of a photo's full-size file (used by the full-screen viewer).
+export const fullWidthOf = (src) => (imageWidths[src] || [])[2] || 2000;
+
+// The best photo for a double-width card: the cover if it is landscape, otherwise the project's
+// widest landscape photo. Returns null when the project has no landscape photo at least 1000px
+// wide (a portrait photo cropped to a wide card shows only a thin slice).
+export const wideImageFor = (project) => {
+  const landscape = project.images
+    .map((image) => {
+      const [, , w, h] = imageWidths[image.src] || [];
+      return { image, w, ratio: w && h ? w / h : 0 };
+    })
+    .filter((x) => x.ratio >= 1.25 && x.w >= 1000);
+  if (!landscape.length) return null;
+  if (landscape[0].image === project.images[0]) return landscape[0];
+  return landscape.reduce((best, x) => (x.w > best.w ? x : best));
+};
+
+// Which projects get a double-width card so every row of a 3-column grid is full.
+// "All" uses the projects marked featured. A filtered view picks the projects with the best
+// landscape photos: 4 projects need 2 wide cards, 5 need 1, 2 need 1; 3 or 6 need none.
+// A single project (or too few landscape photos) gets no wide card; it is centred instead.
+export const wideCardsFor = (shown, isAll) => {
+  if (isAll) return new Map(shown.filter((p) => p.featured).map((p) => [p.slug, p.images[0]]));
+  const needed = (3 - (shown.length % 3)) % 3;
+  if (shown.length < 2 || !needed) return new Map();
+  const ranked = shown
+    .map((p) => ({ p, wide: wideImageFor(p) }))
+    .filter((x) => x.wide)
+    .sort((a, b) => b.wide.w - a.wide.w);
+  if (ranked.length < needed) return new Map();
+  return new Map(ranked.slice(0, needed).map((x) => [x.p.slug, x.wide.image]));
 };
 
 // Build image paths from folder + file stem.
@@ -172,10 +220,25 @@ export const showProjectsWithOldLogo = false;
 // "client" is shown on the old site as the project caption. Check that each client is
 // happy to be named publicly, otherwise use "title" only.
 // "coverAlt" describes the first photo for screen readers and image search.
+// "featured: true" gives the project a double-width card in the "All" view of the homepage grid.
+// Rows stay full when (number of projects + number of featured) divides by 3: today 10 + 2 = 12.
+// After adding or removing a project, feature one more or one fewer to keep that true.
 // Optional per project, shown on its page (/work/<slug>) when set:
 //   summary: "A short paragraph about the brief and the design.",
 //   location: "Gandhidham", year: 2022, area: "2,400 sq ft", scope: "Full interiors"
 const allProjects = [
+  {
+    slug: "kailash-nivas",
+    featured: true,
+    coverAlt: "Double-height living room with a carved teak staircase screen, cane-and-wood daybed, sage sofa and slatted wooden ceiling",
+    category: "Residence",
+    title: "Kailash Nivas",
+    client: "Kailash Nivas",
+    images: photos(
+      "residence/kailash_nivas",
+      [5, 33, 41, 34, 38, 40, 39, 42, 1, 15, 25, 19, 6, 18, 7, 17, 27, 28, 35, 37, 8, 20, 23, 16, 9, 24, 26, 14, 3, 12, 11, 13, 10, 29, 30, 31, 32, 2, 36, 4, 22, 21]
+    ),
+  },
   {
     slug: "ashok-vora-residence",
     coverAlt: "Living and dining area with a white open-shelf partition, navy sofa with lime cushions and a light-wood dining table",
@@ -222,12 +285,41 @@ const allProjects = [
     images: photos("office/hitesh_mehta", [1, 2, 4, 5, 6, 7, 8, 9, 3, 10]),
   },
   {
+    slug: "khodiyar-office",
+    coverAlt: "Wall of wave-shaped walnut display shelves holding small plants and a miniature bicycle",
+    category: "Office",
+    title: "Office",
+    client: "Khodiyar",
+    // The source photos had an old "F&C Design Studio" watermark along the bottom; it was
+    // cropped off when these files were made, so re-crop if you ever replace them from Drive.
+    images: photos("office/khodiyar", [3, 5, 9, 10, 11, 7, 6, 8, 4, 2, 1]),
+  },
+  {
+    slug: "gadhvi-office",
+    coverAlt: "Office with a curved pink-laminate desk on an arched white leg, sage cabinets, a mustard pin board and a wall of terracotta outlined arches",
+    category: "Office",
+    title: "Office",
+    client: "Mr. Gadhvi",
+    // The source photos had an old "© F & C DESIGN STUDIO" watermark along the bottom; it was
+    // cropped off when these files were made, so re-crop if you ever replace them from Drive.
+    images: photos("office/gadhvi", [1, 3, 2]),
+  },
+  {
     slug: "rakhi-shah-salon",
     coverAlt: "Salon station with a full-length mirror column, brick-effect wall and black styling chair",
     category: "Salon",
     title: "Salon",
     client: "Rakhi Shah",
     images: photos("saloon/rakhi_shah", [1, 3, 2, 5, 4, 6]),
+  },
+  {
+    slug: "saloni-nails-makeover",
+    featured: true,
+    coverAlt: "Salon with a backlit fluted sage arch, navy velvet bench, arched mirrors with warm halo lighting and hanging greenery",
+    category: "Salon",
+    title: "Saloni Nails & Makeover",
+    client: "Saloni Nails & Makeover",
+    images: photos("saloon/saloni", [4, 5, 1, 3, 2]),
   },
   {
     slug: "tulsi-restaurant",
