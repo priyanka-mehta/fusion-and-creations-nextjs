@@ -700,9 +700,10 @@ p {
 }
 .about__media img {
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
-  object-position: 50% 40%;
+  /* Keeps the Viraas sign centred when the sides of the landscape photo are cropped. */
+  object-position: 67% 50%;
 }
 .about__media::after {
   content: "";

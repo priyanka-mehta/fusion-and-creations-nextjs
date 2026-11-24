@@ -48,9 +48,10 @@ export const about = {
     { label: "Studio", value: "Gandhidham, Kutch" },
     { label: "We design", value: "Homes, offices, salons & restaurants" },
   ],
-  // The old stock photo of a laptop was replaced with one of your own projects.
-  image: "/images/office/virali_mehta/5.webp",
-  imageAlt: "Display shelving with pendant lights and handcrafted decor in the Viraas studio",
+  // Landscape photo shown in a square frame, centred on the Viraas sign (see About.js).
+  image: "/images/about/reception.webp",
+  imageAlt:
+    "Viraas reception with the Viraas sign on a lit plaster arch, a live-edge wooden desk, brass pendant lights and a flowering olive tree",
   closing:
     "Our team takes over everything, from an idea and concept development to realization. We believe in traditions and incorporate them within our innovations. Client is the soul of the project.",
 };

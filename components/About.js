@@ -9,7 +9,9 @@ export default function About() {
           <img
             src={about.image}
             srcSet={srcSetFor(about.image)}
-            sizes="(max-width: 900px) 100vw, min(40vw, 560px)"
+            // The frame is square and the photo 3:2, so the photo is drawn 1.5x the frame's
+            // width (sides cropped); request that width so it stays sharp.
+            sizes="(max-width: 900px) min(150vw, 780px), min(60vw, 840px)"
             alt={about.imageAlt}
             loading="lazy"
           />
