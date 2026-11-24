@@ -1096,7 +1096,8 @@ p {
 
 /* Double-width cards keep every row full (chosen in content/site.js, wideCardsFor).
    "card--wide": featured projects in "All"; on tablets they fill a row on their own.
-   "card--wide-desktop": filtered views; desktop only, tablets show a normal card. */
+   "card--wide-desktop": desktop only, tablets show a normal card (filtered views, and one
+   featured card in "All" when tablets would otherwise leave a gap; see Work.js). */
 .card__img--wide {
   display: none;
 }

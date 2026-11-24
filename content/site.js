@@ -238,8 +238,8 @@ export const showProjectsWithOldLogo = false;
 // happy to be named publicly, otherwise use "title" only.
 // "coverAlt" describes the first photo for screen readers and image search.
 // "featured: true" gives the project a double-width card in the "All" view of the homepage grid.
-// Rows stay full when (number of projects + number of featured) divides by 3: today 10 + 2 = 12.
-// After adding or removing a project, feature one more or one fewer to keep that true.
+// Rows stay full when (number of projects + number of featured) divides by 3: today 12 + 3 = 15.
+// After adding or removing a project, feature or un-feature projects to keep that true.
 // Optional per project, shown on its page (/work/<slug>) when set:
 //   summary: "A short paragraph about the brief and the design.",
 //   location: "Gandhidham", year: 2022, area: "2,400 sq ft", scope: "Full interiors"
@@ -312,6 +312,17 @@ const allProjects = [
     images: photos("office/khodiyar", [3, 5, 9, 10, 11, 7, 6, 8, 4, 2, 1]),
   },
   {
+    slug: "gokul-furnishing",
+    featured: true,
+    coverAlt: "Furnishing showroom lounge with blue and olive sofas, a carved wall panel and floor-to-ceiling curtain samples under a glowing ceiling frame",
+    category: "Office",
+    title: "Showroom",
+    client: "Gokul Furnishing",
+    images: photos("office/gokul_furnishing", [
+      29, 16, 2, 39, 11, 21, 9, 33, 27, 44, 18, 14, 31, 25, 20, 42, 1, 3, 4, 5, 6, 7, 8, 10, 12, 13, 15, 17, 19, 22, 23, 24, 26, 28, 30, 32, 34, 35, 36, 37, 38, 40, 41, 43, 45, 46
+    ]),
+  },
+  {
     slug: "gadhvi-office",
     coverAlt: "Office with a curved pink-laminate desk on an arched white leg, sage cabinets, a mustard pin board and a wall of terracotta outlined arches",
     category: "Office",
@@ -322,12 +333,14 @@ const allProjects = [
     images: photos("office/gadhvi", [1, 3, 2]),
   },
   {
-    slug: "rakhi-shah-salon",
-    coverAlt: "Salon station with a full-length mirror column, brick-effect wall and black styling chair",
-    category: "Salon",
-    title: "Salon",
-    client: "Rakhi Shah",
-    images: photos("saloon/rakhi_shah", [1, 3, 2, 5, 4, 6]),
+    slug: "ciel-photographer",
+    coverAlt: "Bright photography studio office with a walnut desk, black track lights, roller blinds and a jute rug on glossy white tiles",
+    category: "Office",
+    title: "Studio",
+    client: "Ciel Photographer",
+    // Only phone-sized copies (1179px wide) were supplied, so the full-size files are kept
+    // lossless. Replace them with the camera originals if you get them.
+    images: photos("office/ciel_photographer", [1, 4, 3, 2]),
   },
   {
     slug: "saloni-nails-makeover",
@@ -337,6 +350,14 @@ const allProjects = [
     title: "Saloni Nails & Makeover",
     client: "Saloni Nails & Makeover",
     images: photos("saloon/saloni", [4, 5, 1, 3, 2]),
+  },
+  {
+    slug: "rakhi-shah-salon",
+    coverAlt: "Salon station with a full-length mirror column, brick-effect wall and black styling chair",
+    category: "Salon",
+    title: "Salon",
+    client: "Rakhi Shah",
+    images: photos("saloon/rakhi_shah", [1, 3, 2, 5, 4, 6]),
   },
   {
     slug: "tulsi-restaurant",

@@ -11,6 +11,11 @@ export default function Work() {
   // Double-width cards that keep every row full (see wideCardsFor). In "All" they are the
   // featured projects and also go full-width on tablets; in a filtered view they are desktop-only.
   const wideCards = wideCardsFor(shown, isAll);
+  // On tablets (2 columns) featured cards fill a whole row, so the other cards must pair up.
+  // With an odd number of them one would sit alone; the last featured card then stays wide on
+  // desktop only and fills that gap as a normal card on tablets.
+  const tabletNormal =
+    isAll && (shown.length - wideCards.size) % 2 === 1 ? [...wideCards.keys()].pop() : null;
   const gridClass = [
     "grid",
     wideCards.size && "grid--wide",
@@ -50,13 +55,14 @@ export default function Work() {
             const cover = project.images[0];
             const wideImage = wideCards.get(project.slug);
             const wide = Boolean(wideImage);
+            const allWide = isAll && project.slug !== tabletNormal; // wide on tablets too
             // A filtered-view wide card may use a different (landscape) photo than the cover.
             const altWide = wide && wideImage !== cover ? wideImage : null;
             return (
               <Link
                 href={`/work/${project.slug}`}
                 key={project.slug}
-                className={`card${wide ? (isAll ? " card--wide" : " card--wide-desktop") : ""}`}
+                className={`card${wide ? (allWide ? " card--wide" : " card--wide-desktop") : ""}`}
                 style={{ animationDelay: `${i * 0.06}s` }}
                 aria-label={`${project.category} project: ${projectLabel(project)}, ${project.images.length} photos`}
               >
@@ -77,7 +83,7 @@ export default function Work() {
                   // Real on-screen widths: the page is at most 1280px wide (1152px inside its
                   // margins), so a third-width card never exceeds ~370px and a wide one ~760px.
                   sizes={
-                    wide && isAll
+                    wide && allWide
                       ? "(max-width: 960px) 100vw, min(61vw, 760px)"
                       : wide && !altWide
                       ? "(max-width: 600px) 100vw, (max-width: 960px) 45vw, min(61vw, 760px)"
